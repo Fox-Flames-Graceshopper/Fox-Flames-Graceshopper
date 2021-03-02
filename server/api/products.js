@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product} = require('../db/product')
+const {Product} = require('../db/models')
 module.exports = router
 
 // GET route for all products
