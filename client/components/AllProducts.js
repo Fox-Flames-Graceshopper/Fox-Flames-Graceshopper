@@ -9,7 +9,7 @@ class AllProducts extends React.Component {
   render() {
     return (
       <div>
-        {this.props.products &&
+        {this.props.products.length &&
           this.props.products.map(product => {
             return (
               <div key={product.id}>
