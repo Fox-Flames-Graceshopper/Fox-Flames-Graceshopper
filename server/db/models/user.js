@@ -26,6 +26,10 @@ const User = db.define('user', {
   },
   googleId: {
     type: Sequelize.STRING
+  },
+  imageUrl: {
+    type: Sequelize.TEXT,
+    defaultValue: 'https://pbs.twimg.com/media/BtFUrp6CEAEmsml.jpg'
   }
 })
 
