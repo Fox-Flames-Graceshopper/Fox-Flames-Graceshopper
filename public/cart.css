@@ -1,0 +1,44 @@
+.chk-item-cont {
+  border-top: 2px solid gray;
+  display: flex;
+  margin-bottom: 30px;
+  padding: 5px;
+}
+
+.cart-img {
+  max-height: 75px;
+  max-width: 75px;
+}
+
+.item-cart-info {
+  margin-left: 10px;
+}
+
+.item-cart-name {
+  font-size: 20px;
+}
+
+#item-cart-price {
+  color: green;
+}
+
+.total-cont {
+  border-top: 2px solid gray;
+}
+
+.total-qty {
+  font-size: 1.1rem;
+}
+
+.total-qty span:nth-child(odd) {
+  margin-left: 5px;
+}
+
+.total-qty span:nth-child(even) {
+  float: right;
+  margin-right: 15px;
+}
+
+.total-qty:last-child {
+  font-weight: bold;
+}
