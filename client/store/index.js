@@ -7,8 +7,6 @@ import user from './user'
 import checkout from './checkout'
 import allProducts from './allProducts'
 
-
-
 const reducer = combineReducers({user, allProducts, checkout, singleProduct})
 
 const middleware = composeWithDevTools(
