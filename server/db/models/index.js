@@ -1,5 +1,8 @@
+/* eslint-disable camelcase */
 const User = require('./user')
 const Product = require('./product')
+const Cart = require('./cart')
+const CartItems = require('./cartItems')
 
 /**
  * If we had any associations to make, this would be a great place to put them!
@@ -14,7 +17,11 @@ const Product = require('./product')
  * for example, we can say: const {User} = require('../db/models')
  * instead of: const User = require('../db/models/user')
  */
+User.hasMany(Cart)
+Cart.belongsToMany(Product, {through: CartItems})
+
 module.exports = {
   User,
-  Product
+  Product,
+  Cart
 }

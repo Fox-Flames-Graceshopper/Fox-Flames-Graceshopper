@@ -8,18 +8,24 @@ class AllProducts extends React.Component {
   }
   render() {
     return (
-      <div>
-        {this.props.products.length &&
-          this.props.products.map(product => {
-            return (
-              <div key={product.id}>
-                <p>{product.name}</p>
-                <img src={product.imageUrl} />
-                <p>{product.description}</p>
-                <p>{product.category}</p>
-              </div>
-            )
-          })}
+      <div id="products-page-container">
+        <form>
+          <input />
+        </form>
+        <datalist />
+        <div id="all-products-container">
+          {this.props.products &&
+            this.props.products.map(product => {
+              return (
+                <div key={product.id} className="product-description">
+                  <p>{product.name}</p>
+                  <img src={product.imageUrl} />
+                  <p>{product.description}</p>
+                  <p>{product.category}</p>
+                </div>
+              )
+            })}
+        </div>
       </div>
     )
   }
@@ -27,7 +33,7 @@ class AllProducts extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.products
+    products: state.allProducts
   }
 }
 
