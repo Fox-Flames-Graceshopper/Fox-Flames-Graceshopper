@@ -30,6 +30,10 @@ const User = db.define('user', {
   imageUrl: {
     type: Sequelize.TEXT,
     defaultValue: 'https://pbs.twimg.com/media/BtFUrp6CEAEmsml.jpg'
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 })
 
