@@ -22,9 +22,14 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   console.log('Google client ID / secret not found. Skipping Google OAuth.')
 } else {
   const googleConfig = {
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: process.env.GOOGLE_CALLBACK
+    // clientID: process.env.GOOGLE_CLIENT_ID,
+    // clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    // callbackURL: process.env.GOOGLE_CALLBACK
+    clientID:
+      '733224908113-mmtmq60e8eu0f7ftc7d6u4a0t4qo5d54.apps.googleusercontent.com',
+    clientSecret: 'vcnygR8o90QSAD9e9lbOxpZv',
+    callbackURL:
+      'https://foxflamegraceshopper.herokuapp.com/auth/google/callback'
   }
 
   const strategy = new GoogleStrategy(
