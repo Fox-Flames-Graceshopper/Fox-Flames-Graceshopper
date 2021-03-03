@@ -10,8 +10,17 @@ export const UserHome = props => {
 
   return (
     <div>
-      <img className="userImg" src={user.imageUrl} />
-      <h3>Welcome back, {user.email}</h3>
+      {user.isAdmin === true ? (
+        <div>
+          <img className="userImg" src={user.imageUrl} />
+          <h3>Welcome back Admin, {user.email}</h3>
+        </div>
+      ) : (
+        <div>
+          <img className="userImg" src={user.imageUrl} />
+          <h3>Welcome back, {user.email}</h3>
+        </div>
+      )}
     </div>
   )
 }
