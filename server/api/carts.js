@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Cart} = require('../db/models')
+const {Cart, User} = require('../db/models')
 
 // api/testApi
 router.get('/:id', async (req, res, next) => {
@@ -20,6 +20,14 @@ router.get('/:id', async (req, res, next) => {
     //     category: value.category,
     //     quantity: value.Cart_Items.quantity,
     //   }
+    // })
+    // const data2 = await User.findOne({
+    //   where: {
+    //     id: req.params.id,
+    //   },
+    //   include: {
+    //     all: true,
+    //   },
     // })
 
     res.send(data)
