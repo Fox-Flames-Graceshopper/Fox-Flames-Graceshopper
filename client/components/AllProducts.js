@@ -18,7 +18,6 @@ class AllProducts extends React.Component {
     this.props.fetchProducts()
   }
   changeCategory = async e => {
-    console.log(e.target.value)
     let value = e.target.value === 'All Products' ? '' : e.target.value
     await this.setState({...this.state, category: value})
     this.filterChange()
@@ -34,13 +33,6 @@ class AllProducts extends React.Component {
     let input = this.state.input.toLowerCase()
     let category = this.state.category
     let filterData = []
-    // if (this.state.category === '') {
-    //   filterData = this.props.products.filter((info) => {
-    //     let name = info.name.toLowerCase()
-    //     let input = this.state.input.toLowerCase()
-    //     return name.includes(input)
-    //   })
-    // } else {
     filterData = this.props.products.filter(info => {
       let name = info.name.toLowerCase()
       return category === ''
