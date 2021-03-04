@@ -12,15 +12,22 @@ class SingleProduct extends Component {
   // }
 
   componentDidMount() {
+    console.log('mounting')
     this.props.loadSingleProduct(this.props.match.params.id)
   }
 
   render() {
-    const onRender = {name: '', price: 0, imageUrl: '', description: ''}
+    console.log('rendering')
+    const onRender = {
+      name: '',
+      price: 0,
+      imageUrl: 'shorturl.at/gsJS2',
+      description: ''
+    }
     const product = this.props.product || onRender
     return (
-      <div>
-        <h2>{product.name}</h2>
+      <div id="single-Product">
+        <h3>{product.name}</h3>
         <img src={product.imageUrl} />
         <div>Price: {product.price}</div>
         <div>

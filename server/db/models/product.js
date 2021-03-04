@@ -11,7 +11,7 @@ const Product = db.define('product', {
     allowNull: false
   },
   description: {
-    type: Sequelize.TEXT,
+    type: Sequelize.STRING,
     allowNull: false
   },
   category: {
@@ -19,7 +19,7 @@ const Product = db.define('product', {
     allowNull: false
   },
   imageUrl: {
-    type: Sequelize.TEXT,
+    type: Sequelize.STRING,
     allowNull: false
   }
 })
