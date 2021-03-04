@@ -36,3 +36,24 @@ form div {
   height: 150px;
   width: 150px;
 }
+#single-Product img {
+  height: 350px;
+  width: 350px;
+}
+#modal {
+  cursor: pointer;
+  position: relative;
+  /* padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px; */
+  font-size: 18px;
+  background: #ffffff;
+  border-radius: 5px;
+  border: 1px solid #cfcece;
+}
+
+#modal img {
+  height: 150px;
+  width: 150px;
+}
