@@ -30,33 +30,36 @@ class AllProducts extends React.Component {
     })
     this.filterChange()
   }
-  filterChange = () => {
+  filterChange = async () => {
+    let input = this.state.input.toLowerCase()
+    let category = this.state.category
     let filterData = []
-    if (this.state.category === '') {
-      filterData = this.props.products.filter(info => {
-        let name = info.name.toLowerCase()
-        let input = this.state.input.toLowerCase()
-        return name.includes(input)
-      })
-    } else {
-      filterData = this.props.products.filter(info => {
-        let name = info.name.toLowerCase()
-        let input = this.state.input.toLowerCase()
-        return input === ''
-          ? info.category === this.state.category
-          : name.includes(input) && info.category === this.state.category
-      })
-    }
-    this.setState({...this.state, filterItems: filterData})
+    // if (this.state.category === '') {
+    //   filterData = this.props.products.filter((info) => {
+    //     let name = info.name.toLowerCase()
+    //     let input = this.state.input.toLowerCase()
+    //     return name.includes(input)
+    //   })
+    // } else {
+    filterData = this.props.products.filter(info => {
+      let name = info.name.toLowerCase()
+      return category === ''
+        ? name.includes(input)
+        : input === ''
+          ? info.category === category
+          : name.includes(input) && info.category === category
+    })
+    await this.setState({...this.state, filterItems: filterData})
   }
   render() {
-    const {input, filterItems} = this.state
+    const {input, filterItems, category} = this.state
     const {products} = this.props
     const categories = ['All Products']
     products.forEach(product => {
       if (!categories.includes(product.category))
         categories.push(product.category)
     })
+
     return (
       <div id="products-page-container">
         <form>
@@ -80,7 +83,7 @@ class AllProducts extends React.Component {
           })}
         </form>
         <div id="all-products-container">
-          {input === '' ? (
+          {input === '' && category === '' ? (
             products && <ProductDescription products={products} />
           ) : (
             <ProductDescription products={filterItems} />
