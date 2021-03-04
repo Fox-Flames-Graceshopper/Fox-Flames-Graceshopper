@@ -1,6 +1,7 @@
 const crypto = require('crypto')
 const Sequelize = require('sequelize')
 const db = require('../db')
+const Cart = require('./cart')
 
 const User = db.define('user', {
   email: {
@@ -71,6 +72,10 @@ const setSaltAndPassword = user => {
   }
 }
 
+User.afterCreate(async user => {
+  const cart = await Cart.create()
+  user.addCart(cart)
+})
 User.beforeCreate(setSaltAndPassword)
 User.beforeUpdate(setSaltAndPassword)
 User.beforeBulkCreate(users => {
