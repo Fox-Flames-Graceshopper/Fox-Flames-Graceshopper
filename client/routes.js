@@ -6,6 +6,7 @@ import {Login, Signup, UserHome} from './components'
 import AllProducts from './components/AllProducts'
 import {me} from './store'
 import Checkout from './components/Checkout'
+import AllUsersAdminView from './components/allUserAdminView'
 
 /**
  * COMPONENT
@@ -30,6 +31,8 @@ class Routes extends Component {
             {/* Routes placed here are only available after logging in */}
             <Route path="/home" component={UserHome} />
             <Route path="/cart" component={Checkout} />
+            {/* note this is subject to change since its for admin only */}
+            <Route path="/allusersadminview" component={AllUsersAdminView} />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}
