@@ -1,13 +1,14 @@
 import React from 'react'
 
-function Subtotal() {
+function Subtotal(props) {
+  let subtotal = props.getTotal()
   return (
     <div className="total-cont">
       <h3>Your Total</h3>
       <div>
         <div className="total-qty">
-          <span>Items(quantity):</span>
-          <span>$450.69</span>
+          <span>Items ({subtotal.qtyItem}):</span>
+          <span>${subtotal.total}</span>
         </div>
         <div className="total-qty">
           <span>Shipping and Handling:</span>
@@ -15,7 +16,7 @@ function Subtotal() {
         </div>
         <div className="total-qty">
           <span>Total Before Tax:</span>
-          <span>$473.02</span>
+          <span>${subtotal.total + 22.33}</span>
         </div>
         <div className="total-qty">
           <span>Estimated Tax:</span>

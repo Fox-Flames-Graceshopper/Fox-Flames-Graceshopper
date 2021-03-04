@@ -6,7 +6,7 @@ router.get('/:id', async (req, res, next) => {
   try {
     const data = await Cart.findOne({
       where: {
-        id: req.params.id
+        userId: req.params.id
       },
       include: {
         all: true
@@ -22,7 +22,7 @@ router.get('/:id', async (req, res, next) => {
     //   }
     // })
 
-    res.send(data)
+    res.json(data)
   } catch (err) {
     next(err)
   }
