@@ -3,8 +3,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchProducts} from '../store/allProducts'
-import {Link} from 'react-router-dom'
-import Popup from 'reactjs-popup'
+// import {Link} from 'react-router-dom'
+// import Popup from 'reactjs-popup'
 import ProductDescription from './ProductDescription'
 
 class AllProducts extends React.Component {
