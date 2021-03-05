@@ -77,11 +77,14 @@ class AllProducts extends React.Component {
           })}
         </form>
         <div id="all-products-container">
-          {input === '' && category === '' ? (
-            products && <ProductDescription products={products} />
-          ) : (
-            <ProductDescription products={filterItems} />
-          )}
+          {input === '' && category === ''
+            ? products &&
+              products.map(product => {
+                return <ProductDescription product={product} />
+              })
+            : filterItems.map(product => {
+                return <ProductDescription product={product} />
+              })}
         </div>
       </div>
     )
