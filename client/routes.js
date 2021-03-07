@@ -8,6 +8,7 @@ import AllProducts from './components/AllProducts'
 import {me} from './store'
 import Checkout from './components/Checkout'
 import AllUsersAdminView from './components/allUserAdminView'
+import AllProductAdminView from './components/allProductAdminView'
 
 /**
  * COMPONENT
@@ -35,6 +36,10 @@ class Routes extends Component {
             <Route path="/cart" component={Checkout} />
             {/* note this is subject to change since its for admin only */}
             <Route path="/allusersadminview" component={AllUsersAdminView} />
+            <Route
+              path="/allProductAdminView"
+              component={AllProductAdminView}
+            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

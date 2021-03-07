@@ -1,7 +1,7 @@
 import React from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {fetchUserThunk} from '../store/allUsersAdminView'
+import {fetchUserThunk, deleteUserThunk} from '../store/allUsersAdminView'
 
 //should be able to see all users info
 //should be able to delete them
@@ -19,6 +19,19 @@ class AllUsersAdminView extends React.Component {
     return (
       <div id="user">
         <h1>hello from the All Users Admin View</h1>
+        {this.props.users.map(currentUser => {
+          return (
+            <div key={currentUser.id}>
+              {currentUser.email}
+              <button
+                type="button"
+                onClick={() => this.props.deleteUserThunk(currentUser.id)}
+              >
+                Delete
+              </button>
+            </div>
+          )
+        })}
       </div>
     )
   }
@@ -33,7 +46,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    fetchUserThunk: () => dispatch(fetchUserThunk())
+    fetchUserThunk: () => dispatch(fetchUserThunk()),
+    deleteUserThunk: userId => dispatch(deleteUserThunk(userId))
   }
 }
 

@@ -27,3 +27,21 @@ router.post('/', async (req, res, next) => {
     next(err)
   }
 })
+
+router.delete('/:id', async (req, res, next) => {
+  try {
+    const toDelete = await User.findOne({
+      where: {
+        id: req.params.id
+      }
+    })
+    if (!toDelete) {
+      res.sendStatus(404)
+    } else {
+      await toDelete.destroy()
+      res.json(toDelete)
+    }
+  } catch (err) {
+    next(err)
+  }
+})
