@@ -27,11 +27,16 @@ class SingleProduct extends Component {
     const product = this.props.product || onRender
     return (
       <div id="single-Product">
-        <h3>{product.name}</h3>
-        <img src={product.imageUrl} />
-        <div>Price: {product.price}</div>
-        <div>
-          <p>Description: {product.description}</p>
+        <div id="single-product-pic">
+          <img src={product.imageUrl} />
+        </div>
+        <div id="single-product-info">
+          <h2>{product.name}</h2>
+          <h3>Price: {product.price}</h3>
+          <div>
+            <h5>Description:</h5>
+            <p>{product.description}</p>
+          </div>
         </div>
       </div>
     )

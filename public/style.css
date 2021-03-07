@@ -37,10 +37,39 @@ form div {
   width: 150px;
 }
 
-#single-Product img {
+#single-Product {
+  margin: 50px auto;
+  margin-top: 50px;
+  margin-right: auto;
+  margin-bottom: 50px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+/* #single-Product img {
   height: 350px;
   width: 350px;
+} */
+
+#single-product-pic {
+  flex: 1 1 350px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 350px;
 }
+
+#single-product-info {
+  flex: 1 1 400px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 400px;
+}
+
 #modal {
   cursor: pointer;
   position: relative;
