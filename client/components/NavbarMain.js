@@ -20,7 +20,7 @@ const mapDispatch = dispatch => {
 
 function Navbar({handleClick, isLoggedIn}) {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
       {isLoggedIn ? (
         <div className="container-fluid">
           <Link className="navbar-brand" href="/home">

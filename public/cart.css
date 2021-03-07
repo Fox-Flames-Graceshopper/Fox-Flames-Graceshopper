@@ -6,6 +6,8 @@
 }
 
 .cart-img {
+  height: 75px;
+  width: 75px;
   max-height: 75px;
   max-width: 75px;
 }
@@ -41,4 +43,8 @@
 
 .total-qty:last-child {
   font-weight: bold;
+}
+
+#qty-cart-input {
+  width: 60px;
 }
