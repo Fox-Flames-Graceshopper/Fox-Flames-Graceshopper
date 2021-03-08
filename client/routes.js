@@ -36,10 +36,6 @@ class Routes extends Component {
             <Route path="/cart" component={Checkout} />
             {/* note this is subject to change since its for admin only */}
             <Route path="/allusersadminview" component={AllUsersAdminView} />
-            <Route
-              path="/allProductAdminView"
-              component={AllProductAdminView}
-            />
           </Switch>
         )}
         {/* Displays our Login component as a fallback */}

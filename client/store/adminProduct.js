@@ -21,7 +21,34 @@ const editProduct = product => {
   }
 }
 // thunk
+export const deleteProductThunk = productId => {
+  return async dispatch => {
+    try {
+      const response = await axios.delete(`/api/adminproduct/${productId}`)
+      const data = response.data
+      const action = deleteProduct(data)
+      dispatch(action)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
 
+export const editProductThunk = (product, productId) => {
+  return async dispatch => {
+    try {
+      const response = await axios.put(
+        `/api/adminproduct/${productId}`,
+        product
+      )
+      const updatedProduct = response.data
+      const action = editProduct(updatedProduct)
+      dispatch(action)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
 //reducer
 export default function(state = initState, action) {
   switch (action.type) {
