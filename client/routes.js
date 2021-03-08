@@ -8,6 +8,7 @@ import AllProducts from './components/AllProducts'
 import {me} from './store'
 import Checkout from './components/Checkout'
 import AllUsersAdminView from './components/allUserAdminView'
+import AllProductAdminView from './components/allProductAdminView'
 
 /**
  * COMPONENT
