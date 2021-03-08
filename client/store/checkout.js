@@ -3,6 +3,7 @@ import axios from 'axios'
 const GET_CHECKOUT = 'GET_CHECKOUT'
 const GET_CART = 'GET_CART'
 const RESET_STATE = 'RESET_STATE'
+const UPDATE_CART = 'UPDATE_CART'
 
 const initialCheckout = []
 
@@ -24,6 +25,19 @@ export function fetchCheckout() {
   return async dispatch => {
     try {
       let {data} = await axios.get('/api/products')
+      dispatch(getCheckout(data))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export function updateCheckout(userId, updateData) {
+  return async dispatch => {
+    try {
+      let {data} = await axios.put(`/api/carts/${userId}`, {
+        products: updateData
+      })
       dispatch(getCheckout(data))
     } catch (e) {
       console.log(e)

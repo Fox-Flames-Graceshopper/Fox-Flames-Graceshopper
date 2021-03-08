@@ -1,7 +1,14 @@
 import React from 'react'
 
 function Subtotal(props) {
-  let subtotal = props.getTotal()
+  let subtotal = {}
+  if (props.isLoggedIn) {
+    subtotal = props.getTotal()
+  } else {
+    subtotal = props.subtotal
+  }
+
+  console.log('this is the total: ', subtotal)
   return (
     <div className="total-cont">
       <h3>Your Total</h3>

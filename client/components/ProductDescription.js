@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 class ProductDescription extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {quantity: 0}
+    this.state = {quantity: 1}
   }
   addCart = e => {
     e.preventDefault()
