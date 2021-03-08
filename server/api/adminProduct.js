@@ -2,9 +2,15 @@ const router = require('express').Router()
 const {Product, Review} = require('../db/models')
 module.exports = router
 
-// const isAdmin = function (req, res, next) {
-//   if (!req.user.dataValues.isAdmin || !req.user) res.sendStatus(403)
-// }
+const isAdmin = function(req, res, next) {
+  if (!req.user) {
+    return res.status(403).send()
+  }
+  if (req.user.dataValues.isAdmin) {
+    next()
+  }
+  res.status(403).send()
+}
 
 //add new product
 router.post('/', async (req, res, next) => {
@@ -47,7 +53,7 @@ router.put('/:id', async (req, res, next) => {
 })
 
 //delete product
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findOne({
       where: {
@@ -58,7 +64,8 @@ router.delete('/:id', async (req, res, next) => {
       res.sendStatus(404)
     } else {
       await product.destroy()
-      res.json(product)
+      const updatedproducts = await Product.findAll()
+      res.json(updatedproducts)
     }
   } catch (err) {
     next(err)
