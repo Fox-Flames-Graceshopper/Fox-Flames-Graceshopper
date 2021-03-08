@@ -1,19 +1,52 @@
 const router = require('express').Router()
 const {Cart, User} = require('../db/models')
+const {Product} = require('../db/models')
+const CartItems = require('../db/models/cartItems')
 
 router.put('/:id', async (req, res, next) => {
   try {
-    let user = await Cart.update(
-      {isPurchased: false},
-      {
-        where: {
-          userId: req.params.id
-        },
-        returning: true
-      }
+    let productDetail = req.body.products
+    console.log('this is the req body', productDetail)
+    const updateCart = await Promise.all(
+      productDetail.map(product => {
+        return CartItems.update(
+          {quantity: product.Cart_Items.quantity},
+          {
+            where: {
+              cartId: product.Cart_Items.cartId,
+              productId: product.Cart_Items.productId
+            }
+          }
+        )
+      })
     )
-    console.log('this is the user', user)
-    res.send(user)
+
+    res.json(updateCart)
+    // let user = await Cart.findOne({
+    //   where: {
+    //     id: req.params.id,
+    //   },
+    //   include: Product,
+    // })
+
+    // user = await user.update({products: data})
+    // console.log('this is the user', user.products)
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
+
+//delete based on cart it
+router.get('/:id', async (req, res, next) => {
+  try {
+    let user = await Cart.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: Product
+    })
+    res.json(user)
   } catch (e) {
     console.log(e)
     next(e)
@@ -31,24 +64,6 @@ router.get('/:id', async (req, res, next) => {
         all: true
       }
     })
-    // const productList = data.products.map((value) => {
-    //   return {
-    //     id: value.id,
-    //     name: value.name,
-    //     description: value.description,
-    //     category: value.category,
-    //     quantity: value.Cart_Items.quantity,
-    //   }
-    // })
-    // const data2 = await User.findOne({
-    //   where: {
-    //     id: req.params.id,
-    //   },
-    //   include: {
-    //     all: true,
-    //   },
-    // })
-
     res.json(data)
   } catch (err) {
     next(err)

@@ -32,14 +32,18 @@ export function fetchCheckout() {
   }
 }
 
-// export function updateCheckout(userId, updateData) {
-//   return async dispatch => {
-//     try {
-//     } catch (e) {
-//       console.log(e)
-//     }
-//   }
-// }
+export function updateCheckout(userId, updateData) {
+  return async dispatch => {
+    try {
+      let {data} = await axios.put(`/api/carts/${userId}`, {
+        products: updateData
+      })
+      dispatch(getCheckout(data))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
 
 // export function reset () {
 //   return {
@@ -59,7 +63,6 @@ export function fetchLoggedInCart(userId) {
   return async dispatch => {
     try {
       let {data} = await axios.get(`/api/carts/${userId}`)
-      console.log('this is the call from store: ', data.products)
       dispatch(getCart(data.products))
     } catch (e) {
       console.log(e)

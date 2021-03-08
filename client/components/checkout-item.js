@@ -26,8 +26,10 @@ class CheckoutItem extends React.Component {
     })
     // this.props.getTotal()
     this.props.increaseTotal(this.props.price)
+    this.props.updateQuantity(this.props.id, this.state.quantity)
   }
 
+  //change +1 to state
   handleDecrement(event) {
     let prevState = parseInt(this.state.quantity)
     if (prevState > 1) {
@@ -35,6 +37,7 @@ class CheckoutItem extends React.Component {
         quantity: prevState - 1
       })
       this.props.decreasePrice(this.props.price)
+      this.props.updateQuantity(this.props.id, this.state.quantity)
     }
     // this.props.getTotal();
   }
@@ -46,6 +49,7 @@ class CheckoutItem extends React.Component {
   }
 
   render() {
+    console.log('this is the item ', this.props)
     return (
       <div className="chk-item-cont">
         <div className="item-img-cont">
