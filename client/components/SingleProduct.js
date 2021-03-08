@@ -55,9 +55,11 @@ class SingleProduct extends Component {
       name: '',
       price: 0,
       imageUrl: 'shorturl.at/gsJS2',
-      description: ''
+      description: '',
+      reviews: []
     }
     const product = this.props.product || onRender
+    const reviews = this.props.product.reviews
     const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
       <div id="single-Product">
@@ -87,7 +89,19 @@ class SingleProduct extends Component {
         </div>
         <div>
           <h3>Reviews:</h3>
-          <div>Review Block</div>
+          <br />
+          <div>
+            {reviews
+              ? reviews.map(rev => (
+                  <div key={rev.id}>
+                    <h5>{rev.title}</h5>
+                    <h5>Rating: {rev.rating} out of 5</h5>
+                    <p>{rev.reviewText}</p>
+                    <br />
+                  </div>
+                ))
+              : 'No Reviews'}
+          </div>
         </div>
       </div>
     )
