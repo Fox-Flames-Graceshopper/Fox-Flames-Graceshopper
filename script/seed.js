@@ -2268,17 +2268,17 @@ async function seed() {
     //   await newProduct.addReview(newReviews)
     // })
 
-    // const cart2 = await Cart.create()
-    // const user1 = await User.findByPk(1)
-    // const user2 = await User.findByPk(2)
+    const user1 = await User.findByPk(1)
+    const user2 = await User.findByPk(2)
+    const cart1 = await Cart.findOne({where: {userId: 1}})
+    const cart2 = await Cart.findOne({where: {userId: 2}})
 
-    // const product2 = await Product.findByPk(2)
-    // const product3 = await Product.findByPk(3)
-    // const product4 = await Product.findByPk(4)
+    const product2 = await Product.findByPk(2)
+    const product3 = await Product.findByPk(3)
+    const product4 = await Product.findByPk(4)
 
-    // await user1.addCart(cart1)
-    // await user2.addCart(cart2)
-    // await cart2.addProducts([product3, product4])
+    await cart1.addProducts([product2])
+    await cart2.addProducts([product3, product4])
 
     console.log(`seeded ${users.length} users`)
     console.log(`seeded ${products.length} products`)
