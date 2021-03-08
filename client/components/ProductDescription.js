@@ -2,6 +2,8 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import Popup from 'reactjs-popup'
 import {connect} from 'react-redux'
+import Button from '@material-ui/core/Button'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 class ProductDescription extends React.Component {
   constructor(props) {
@@ -47,10 +49,10 @@ class ProductDescription extends React.Component {
     const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
       <div key={product.id} className="product-description">
-        <p>{product.name}</p>
+        <p className="product-name">{product.name}</p>
         <img src={product.imageUrl} />
         <p>Category: {product.category}</p>
-        <form>
+        <form className="quantity-addCart-div">
           <label>Quantity</label>
           <select onChange={e => this.setState({quantity: e.target.value})}>
             {numArr.map(val => (
@@ -59,9 +61,14 @@ class ProductDescription extends React.Component {
               </option>
             ))}
           </select>
+          <Button variant="contained" endIcon={<ShoppingCartIcon />}>
+            Add to cart
+          </Button>
+        </form>
+        <div className="preview-product-div">
           <Popup
             trigger={
-              <button type="button" className="button">
+              <button type="button" className="preview-button">
                 {' '}
                 Preview{' '}
               </button>
@@ -72,24 +79,23 @@ class ProductDescription extends React.Component {
               <div id="modal">
                 <h6>{product.name}</h6>
                 <img src={product.imageUrl} />
-                <p>{product.price}</p>
-                <p>{product.description}</p>
-                <button id="close" type="button" onClick={close}>
-                  &times;
-                </button>
-                <Link to={`/products/${product.id}`}>
-                  <button type="button">Product Details</button>
-                </Link>
+                <p>Price: {product.price}</p>
+                <p>Description: {product.description}</p>
+                <div className="popup-x-productDetail-div">
+                  <button id="close" type="button" onClick={close}>
+                    &times;
+                  </button>
+                  <Link to={`/products/${product.id}`}>
+                    <button type="button">Product Details</button>
+                  </Link>
+                </div>
               </div>
             )}
           </Popup>
-          <Link to={`/products/${product.id}`}>
-            <button type="button">Product Details</button>
+          <Link className="product-view-link" to={`/products/${product.id}`}>
+            <Button variant="contained">Product Details</Button>
           </Link>
-          <button type="submit" onClick={this.addCart}>
-            Add to cart
-          </button>
-        </form>
+        </div>
       </div>
     )
   }
