@@ -58,35 +58,28 @@ class AllProducts extends React.Component {
 
     return (
       <div id="products-page-container">
-        <form>
+        <form id="search-and-category-container">
           <input
             value={this.state.input}
             onChange={this.handleInputChange}
             placeholder="Search items..."
           />
           <br />
-          {categories.map((category, i) => {
-            return (
-              // <Button
-              //   key={i}
-              //   type="button"
-              //   value={category}
-              //   onClick={this.changeCategory}
-              //   variant="contained"
-              // >
-              //   {category}
-              // </Button>
-              <button
-                className="category-button"
-                key={i}
-                type="button"
-                value={category}
-                onClick={this.changeCategory}
-              >
-                {category}
-              </button>
-            )
-          })}
+          <div id="category-div">
+            {categories.map((category, i) => {
+              return (
+                <button
+                  className="category-button"
+                  key={i}
+                  type="button"
+                  value={category}
+                  onClick={this.changeCategory}
+                >
+                  {category}
+                </button>
+              )
+            })}
+          </div>
         </form>
         <div id="all-products-container">
           {input === '' && category === ''

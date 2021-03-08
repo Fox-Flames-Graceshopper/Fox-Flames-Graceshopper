@@ -7,6 +7,18 @@
   flex-wrap: wrap;
 }
 
+/* #search-and-category-container {
+  display: flex;
+  flex-direction: column;
+} */
+
+#search-and-category-container input,
+#category-div {
+  margin-left: 3em;
+  position: sticky;
+  top: 0;
+}
+
 .product-description {
   position: relative;
   height: 25em;
