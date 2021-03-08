@@ -1,18 +1,51 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct'
+import Button from '@material-ui/core/Button'
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
 class SingleProduct extends Component {
-  //placeholder in case we need state in the future
-  // constructor() {
-  //   super()
-  //   this.state = {
+  constructor(props) {
+    super(props)
+    this.state = {quantity: 0}
+  }
 
-  //   }
-  // }
+  addCart = e => {
+    e.preventDefault()
+    const productAndQuantity = {
+      ...this.props.product,
+      quantity: this.state.quantity
+    }
+    if (!this.props.user.id && !window.localStorage.cart) {
+      window.localStorage.setItem('cart', JSON.stringify([productAndQuantity]))
+      console.log(window.localStorage)
+    } else {
+      let cart = JSON.parse(window.localStorage.getItem('cart'))
+      // check if some productId was checked out
+      let itemInCart = false
+      cart.forEach(item => {
+        if (item.id === productAndQuantity.id) itemInCart = true
+      })
+      let newCart = []
+      if (itemInCart) {
+        newCart = cart.map(item => {
+          if (item.id === productAndQuantity.id) {
+            item.quantity =
+              Number(item.quantity) + Number(productAndQuantity.quantity)
+          }
+          return item
+        })
+      } else {
+        cart.push(productAndQuantity)
+        newCart = cart
+      }
+      window.localStorage.setItem('cart', JSON.stringify(newCart))
+      console.log(window.localStorage)
+    }
+    console.log(JSON.parse(window.localStorage.getItem('cart')))
+  }
 
   componentDidMount() {
-    console.log('mounting')
     this.props.loadSingleProduct(this.props.match.params.id)
   }
 
@@ -25,6 +58,7 @@ class SingleProduct extends Component {
       description: ''
     }
     const product = this.props.product || onRender
+    const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
       <div id="single-Product">
         <div id="single-product-pic">
@@ -37,6 +71,23 @@ class SingleProduct extends Component {
             <h5>Description:</h5>
             <p>{product.description}</p>
           </div>
+          <form>
+            <label>Quantity</label>
+            <select onChange={e => this.setState({quantity: e.target.value})}>
+              {numArr.map(val => (
+                <option key={val} value={val}>
+                  {val}
+                </option>
+              ))}
+            </select>
+            <Button variant="contained" endIcon={<ShoppingCartIcon />}>
+              Add to cart
+            </Button>
+          </form>
+        </div>
+        <div>
+          <h3>Reviews:</h3>
+          <div>Review Block</div>
         </div>
       </div>
     )
@@ -46,7 +97,8 @@ class SingleProduct extends Component {
 const mapState = state => {
   return {
     //will need to be assigned in combine reducer
-    product: state.singleProduct
+    product: state.singleProduct,
+    user: state.user
   }
 }
 
