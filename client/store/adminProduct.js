@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import {getProducts} from './allProducts'
 //add,delete,edit
 //upadate qaunt of item
 
@@ -26,7 +26,7 @@ export const deleteProductThunk = productId => {
     try {
       const response = await axios.delete(`/api/adminproduct/${productId}`)
       const data = response.data
-      const action = deleteProduct(data)
+      const action = getProducts(data)
       dispatch(action)
     } catch (err) {
       console.log(err)
