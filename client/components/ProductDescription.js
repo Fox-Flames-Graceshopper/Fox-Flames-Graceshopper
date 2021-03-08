@@ -4,6 +4,7 @@ import Popup from 'reactjs-popup'
 import {connect} from 'react-redux'
 import Button from '@material-ui/core/Button'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import {deleteProductThunk} from '../store/adminProduct'
 
 class ProductDescription extends React.Component {
   constructor(props) {
@@ -49,6 +50,17 @@ class ProductDescription extends React.Component {
     const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
       <div key={product.id} className="product-description">
+        {this.props.user.isAdmin ? (
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => this.props.deleteProductThunk(product.id)}
+          >
+            delete
+          </Button>
+        ) : (
+          <div />
+        )}
         <p className="product-name">{product.name}</p>
         <img src={product.imageUrl} />
         <p>Category: {product.category}</p>
@@ -85,6 +97,7 @@ class ProductDescription extends React.Component {
                   <button id="close" type="button" onClick={close}>
                     &times;
                   </button>
+
                   <Link to={`/products/${product.id}`}>
                     <button type="button">Product Details</button>
                   </Link>
@@ -106,5 +119,10 @@ const mapState = state => {
     user: state.user
   }
 }
+const mapDispatch = dispatch => {
+  return {
+    deleteProductThunk: productId => dispatch(deleteProductThunk(productId))
+  }
+}
 
-export default connect(mapState, null)(ProductDescription)
+export default connect(mapState, mapDispatch)(ProductDescription)
