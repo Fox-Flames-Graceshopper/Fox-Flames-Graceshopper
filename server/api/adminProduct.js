@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const {Product} = require('../db/models')
+const {Product, Review} = require('../db/models')
 module.exports = router
 
 const isAdmin = function(req, res, next) {
@@ -34,6 +34,9 @@ router.put('/:id', async (req, res, next) => {
     const product = await Product.findOne({
       where: {
         id: req.params.id
+      },
+      include: {
+        model: Review
       }
     })
     await product.update({

@@ -1,4 +1,6 @@
 import axios from 'axios'
+import {getSingleProduct} from './singleProduct'
+
 import {getProducts} from './allProducts'
 //add,delete,edit
 //upadate qaunt of item
@@ -42,7 +44,7 @@ export const editProductThunk = (product, productId) => {
         product
       )
       const updatedProduct = response.data
-      const action = editProduct(updatedProduct)
+      const action = getSingleProduct(updatedProduct)
       dispatch(action)
     } catch (err) {
       console.log(err)
