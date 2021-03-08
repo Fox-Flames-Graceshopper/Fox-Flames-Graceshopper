@@ -6,7 +6,7 @@ import {connect} from 'react-redux'
 class ProductDescription extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {quantity: 0}
+    this.state = {quantity: 1}
   }
   addCart = e => {
     e.preventDefault()
@@ -44,7 +44,7 @@ class ProductDescription extends React.Component {
   }
   render() {
     const {product} = this.props
-    const numArr = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
       <div key={product.id} className="product-description">
         <p>{product.name}</p>

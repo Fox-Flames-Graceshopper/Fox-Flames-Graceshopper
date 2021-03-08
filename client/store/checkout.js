@@ -3,6 +3,7 @@ import axios from 'axios'
 const GET_CHECKOUT = 'GET_CHECKOUT'
 const GET_CART = 'GET_CART'
 const RESET_STATE = 'RESET_STATE'
+const UPDATE_CART = 'UPDATE_CART'
 
 const initialCheckout = []
 
@@ -31,6 +32,15 @@ export function fetchCheckout() {
   }
 }
 
+// export function updateCheckout(userId, updateData) {
+//   return async dispatch => {
+//     try {
+//     } catch (e) {
+//       console.log(e)
+//     }
+//   }
+// }
+
 // export function reset () {
 //   return {
 //     type: RESET_STATE
@@ -49,6 +59,7 @@ export function fetchLoggedInCart(userId) {
   return async dispatch => {
     try {
       let {data} = await axios.get(`/api/carts/${userId}`)
+      console.log('this is the call from store: ', data.products)
       dispatch(getCart(data.products))
     } catch (e) {
       console.log(e)

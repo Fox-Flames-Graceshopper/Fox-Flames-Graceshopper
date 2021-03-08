@@ -24,22 +24,13 @@ class Checkout extends React.Component {
   constructor() {
     super()
     this.state = {
-      items: [
-        {
-          id: 1,
-          name: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
-          price: 109.95,
-          description:
-            'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday',
-          category: 'men clothing',
-          imageUrl: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-          createdAt: '2021-03-04T15:47:00.902Z',
-          updatedAt: '2021-03-04T15:47:00.902Z'
-        }
-      ]
+      items: [],
+      subtotal: {total: 0, qtyItem: 0}
     }
 
     this.getTotal = this.getTotal.bind(this)
+    this.decreaseTotal = this.decreaseTotal.bind(this)
+    this.increaseTotal = this.increaseTotal.bind(this)
   }
 
   componentDidMount() {
@@ -47,14 +38,18 @@ class Checkout extends React.Component {
       let userId = this.props.userId
       let isLoggedIn = this.props.isLoggedIn
 
+      // heres will i merge carts when logged in
       if (isLoggedIn) {
         this.props.fetchLoggedInCart(userId)
+      } else if (window.localStorage.getItem('cart')) {
+        this.setState({items: JSON.parse(window.localStorage.getItem('cart'))})
       }
+
+      this.getTotal()
     }, 75)
   }
 
   getTotal() {
-    let total = 0
     let subtotalObj = {
       total: 0,
       qtyItem: 0
@@ -64,14 +59,44 @@ class Checkout extends React.Component {
         subtotalObj.total += item.price
         subtotalObj.qtyItem = index + 1
       })
+      console.log('this is the state logged, ', this.props.products)
     } else {
       this.state.items.forEach((item, index) => {
-        subtotalObj.total += item.price
-        subtotalObj.qtyItem = index + 1
+        let total = this.state.subtotal.total
+        let price = item.price * item.quantity
+        this.setState({
+          subtotal: {
+            total: total + price,
+            qtyItem: index + 1
+          }
+        })
       })
     }
     return subtotalObj
   }
+
+  decreaseTotal(price) {
+    let total = this.state.subtotal.total
+
+    this.setState({
+      subtotal: {
+        total: total - price
+      }
+    })
+  }
+
+  increaseTotal(price) {
+    let total = this.state.subtotal.total
+    let quantity = this.state.subtotal.qtyItem
+
+    this.setState({
+      subtotal: {
+        total: total + price,
+        qtyItem: quantity
+      }
+    })
+  }
+
   //here is where i will check if the user is logged in
   // whether to check state or local storage
   render() {
@@ -79,18 +104,38 @@ class Checkout extends React.Component {
       return (
         <div>
           {this.props.products.map((item, index) => {
-            return <CheckoutItem key={index} {...item} />
+            return (
+              <CheckoutItem
+                key={index}
+                getTotal={this.getTotal}
+                decreasePrice={this.decreaseTotal}
+                increaseTotal={this.increaseTotal}
+                {...item}
+              />
+            )
           })}
-          <Subtotal getTotal={this.getTotal} />
+          <Subtotal
+            getTotal={this.getTotal}
+            isLoggedIn={this.props.isLoggedIn}
+            subtotal={this.state.subtotal}
+          />
         </div>
       )
     } else if (this.props.isLoggedIn === false) {
       return (
         <div>
           {this.state.items.map((item, index) => {
-            return <CheckoutItem key={index} {...item} />
+            return (
+              <CheckoutItem
+                key={index}
+                getTotal={this.getTotal}
+                decreasePrice={this.decreaseTotal}
+                increaseTotal={this.increaseTotal}
+                {...item}
+              />
+            )
           })}
-          <Subtotal getTotal={this.getTotal} />
+          <Subtotal subtotal={this.state.subtotal} />
         </div>
       )
     } else {

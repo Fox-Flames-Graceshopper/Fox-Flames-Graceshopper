@@ -24,6 +24,8 @@ class CheckoutItem extends React.Component {
     this.setState({
       quantity: prevState + 1
     })
+    // this.props.getTotal()
+    this.props.increaseTotal(this.props.price)
   }
 
   handleDecrement(event) {
@@ -32,6 +34,14 @@ class CheckoutItem extends React.Component {
       this.setState({
         quantity: prevState - 1
       })
+      this.props.decreasePrice(this.props.price)
+    }
+    // this.props.getTotal();
+  }
+
+  componentDidMount() {
+    if (this.props.quantity) {
+      this.setState({quantity: this.props.quantity})
     }
   }
 
@@ -44,7 +54,9 @@ class CheckoutItem extends React.Component {
 
         <div className="item-cart-info">
           <h2 className="item-cart-name">{this.props.name}</h2>
-          <span id="item-cart-price">${this.props.price}</span>
+          <span id="item-cart-price">
+            ${this.props.price * this.state.quantity}
+          </span>
           <div>
             <div>
               <button onClick={this.handleDecrement} type="button">
