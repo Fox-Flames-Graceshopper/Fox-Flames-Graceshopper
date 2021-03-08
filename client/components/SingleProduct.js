@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct'
+import EditProduct from './EditProduct'
+import Popup from 'reactjs-popup'
 import Button from '@material-ui/core/Button'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 
@@ -50,7 +52,6 @@ class SingleProduct extends Component {
   }
 
   render() {
-    console.log('rendering')
     const onRender = {
       name: '',
       price: 0,
@@ -63,44 +64,79 @@ class SingleProduct extends Component {
     const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
     return (
       <div id="single-Product">
-        <div id="single-product-pic">
-          <img src={product.imageUrl} />
-        </div>
-        <div id="single-product-info">
-          <h2>{product.name}</h2>
-          <h3>Price: {product.price}</h3>
-          <div>
-            <h5>Description:</h5>
-            <p>{product.description}</p>
-          </div>
-          <form>
-            <label>Quantity</label>
-            <select onChange={e => this.setState({quantity: e.target.value})}>
-              {numArr.map(val => (
-                <option key={val} value={val}>
-                  {val}
-                </option>
-              ))}
-            </select>
-            <Button variant="contained" endIcon={<ShoppingCartIcon />}>
-              Add to cart
-            </Button>
-          </form>
-        </div>
-        <div>
-          <h3>Reviews:</h3>
-          <br />
-          <div>
-            {reviews
-              ? reviews.map(rev => (
-                  <div key={rev.id}>
-                    <h5>{rev.title}</h5>
-                    <h5>Rating: {rev.rating} out of 5</h5>
-                    <p>{rev.reviewText}</p>
-                    <br />
+        <div id="edit-product-div">
+          {this.props.user.isAdmin ? (
+            <Popup
+              trigger={
+                <Button
+                  variant="contained"
+                  type="button"
+                  className="edit-button"
+                >
+                  {' '}
+                  Edit Product{' '}
+                </Button>
+              }
+              modal
+            >
+              {close => (
+                <div id="modal">
+                  <EditProduct />
+                  <div id="popup-x-productDetail-div">
+                    <Button
+                      variant="contained"
+                      id="close"
+                      type="button"
+                      onClick={close}
+                    >
+                      Cancel
+                    </Button>
                   </div>
-                ))
-              : 'No Reviews'}
+                </div>
+              )}
+            </Popup>
+          ) : (
+            <div />
+          )}
+          <div id="single-product-pic">
+            <img src={product.imageUrl} />
+          </div>
+          <div id="single-product-info">
+            <h2>{product.name}</h2>
+            <h3>Price: {product.price}</h3>
+            <div>
+              <h5>Description:</h5>
+              <p>{product.description}</p>
+            </div>
+            <form>
+              <label>Quantity</label>
+              <select onChange={e => this.setState({quantity: e.target.value})}>
+                {numArr.map(val => (
+                  <option key={val} value={val}>
+                    {val}
+                  </option>
+                ))}
+              </select>
+              <Button variant="contained" endIcon={<ShoppingCartIcon />}>
+                Add to cart
+              </Button>
+            </form>
+          </div>
+          <div>
+            <h3>Reviews:</h3>
+            <br />
+            <div>
+              {reviews
+                ? reviews.map(rev => (
+                    <div key={rev.id}>
+                      <h5>{rev.title}</h5>
+                      <h5>Rating: {rev.rating} out of 5</h5>
+                      <p>{rev.reviewText}</p>
+                      <br />
+                    </div>
+                  ))
+                : 'No Reviews'}
+            </div>
           </div>
         </div>
       </div>
