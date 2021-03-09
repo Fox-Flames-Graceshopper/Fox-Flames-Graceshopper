@@ -60,17 +60,17 @@ export function updateSingleItem(userId, singleItem) {
   }
 }
 
-// export function reset () {
-//   return {
-//     type: RESET_STATE
-//   }
-// }
+export function reset() {
+  return {
+    type: RESET_STATE
+  }
+}
 
-// export function resetState () {
-//   return (dispatch) => {
-//     dispatch(reset())
-//   }
-// }
+export function resetState() {
+  return dispatch => {
+    dispatch(reset())
+  }
+}
 
 // can lead to errors based on how the route is written
 // possilby load cart(s) based on where the userId equals the userId of the logged in user
@@ -104,6 +104,8 @@ export default function(state = initialCheckout, action) {
       return [...state, ...action.products]
     case GET_CART:
       return [...action.items]
+    case RESET_STATE:
+      return initialCheckout
     default:
       return state
   }
