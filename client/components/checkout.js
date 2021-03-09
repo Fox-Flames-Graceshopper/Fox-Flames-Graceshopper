@@ -43,6 +43,7 @@ class Checkout extends React.Component {
     this.updateQuantity = this.updateQuantity.bind(this)
     this.submitState = this.submitState.bind(this)
     this.updateOfflineQuantity = this.updateOfflineQuantity.bind(this)
+    this.setPriceInput = this.setPriceInput.bind(this)
     // this.updateQuantity = this.updateQuantity.bind(this)
     // this.updateTotal = this.updateTotal.bind(this)
   }
@@ -173,6 +174,16 @@ class Checkout extends React.Component {
     })
   }
 
+  setPriceInput(price) {
+    let total = parseFloat(this.state.subtotal.total)
+
+    this.setState({
+      subtotal: {
+        total: this.roundDecimals(total + price)
+      }
+    })
+  }
+
   //here is where i will check if the user is logged in
   // whether to check state or local storage
   render() {
@@ -220,6 +231,7 @@ class Checkout extends React.Component {
                 increaseTotal={this.increaseTotal}
                 isLoggedIn={this.props.isLoggedIn}
                 updateOffline={this.updateOfflineQuantity}
+                setPrice={this.setPriceInput}
                 {...item}
               />
             )

@@ -20,8 +20,10 @@ class CheckoutItem extends React.Component {
 
   handleChange(event) {
     this.setState({
-      [event.target.name]: event.target.value
+      [event.target.name]: parseInt(event.target.value)
     })
+
+    this.props.setPrice(this.props.price * this.state.quantity)
   }
 
   handleIncrement(event) {
@@ -65,6 +67,7 @@ class CheckoutItem extends React.Component {
   }
 
   render() {
+    console.log('this is the quant ', this.state.quantity)
     // console.log('this are the props item ', this.props)
     if (this.props.isLoggedIn) {
       // console.log('this is the logged in ', this.props.item)
@@ -97,7 +100,11 @@ class CheckoutItem extends React.Component {
                   min="1"
                   onChange={this.handleChange}
                 />
-                <button onClick={this.handleIncrement} type="button">
+                <button
+                  className="inc-button"
+                  onClick={this.handleIncrement}
+                  type="button"
+                >
                   +
                 </button>
               </div>
@@ -118,7 +125,7 @@ class CheckoutItem extends React.Component {
           <div className="item-cart-info">
             <h2 className="item-cart-name">{this.props.name}</h2>
             <span id="item-cart-price">
-              ${this.props.price * this.state.quantity}
+              ${roundDecimals(this.props.price * this.state.quantity)}
             </span>
             <div>
               <div>
@@ -137,7 +144,11 @@ class CheckoutItem extends React.Component {
                   min="1"
                   onChange={this.handleChange}
                 />
-                <button onClick={this.handleIncrement} type="button">
+                <button
+                  className="inc-button"
+                  onClick={this.handleIncrement}
+                  type="button"
+                >
                   +
                 </button>
               </div>
