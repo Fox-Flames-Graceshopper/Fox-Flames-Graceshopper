@@ -13,6 +13,7 @@ class ProductDescription extends React.Component {
     this.state = {quantity: 1}
   }
   addCart = e => {
+    console.log('hello')
     e.preventDefault()
     const productAndQuantity = {
       ...this.props.product,
@@ -46,8 +47,9 @@ class ProductDescription extends React.Component {
     if (this.props.user.id) {
       let singleItem = {
         product: this.props.product.id,
-        quantity: this.state.quantity
+        quantity: Number(this.state.quantity)
       }
+
       this.props.updateSingleItem(this.props.user.id, singleItem)
     }
   }
