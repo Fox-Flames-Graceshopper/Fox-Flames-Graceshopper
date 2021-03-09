@@ -22,15 +22,19 @@ router.put('/:id', async (req, res, next) => {
     )
 
     res.json(updateCart)
-    // let user = await Cart.findOne({
-    //   where: {
-    //     id: req.params.id,
-    //   },
-    //   include: Product,
-    // })
+  } catch (e) {
+    console.log(e)
+    next(e)
+  }
+})
 
-    // user = await user.update({products: data})
-    // console.log('this is the user', user.products)
+router.put('/merge/:id', async (req, res, next) => {
+  try {
+    let cart = await Cart.findOne({where: {userId: req.params.id}})
+    await cart.addProducts([...req.body.products])
+    res.json(cart)
+
+    res.json(cart)
   } catch (e) {
     console.log(e)
     next(e)

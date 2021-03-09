@@ -2226,48 +2226,6 @@ async function seed() {
       )
     )
 
-    // const electronicProducts = await Promise.all(
-    //   newElectronicsData.map(async (product) => {
-    //     let {name, price, imageUrl, category, description, reviews} = product
-    //     const newReviews = await Promise.all(
-    //       reviews.map((review) => {
-    //         let {title, reviewText, rating} = review
-    //         return Review.create({title, reviewText, rating})
-    //       })
-    //     )
-    //     const newProducts = await Product.create({
-    //       name,
-    //       price,
-    //       imageUrl,
-    //       category,
-    //       description,
-    //     })
-    //     await newProducts.addReviews(newReviews)
-    //     return newProducts
-    //   })
-    // )
-
-    // await Promise.all(
-    //   newElectronicsData.map(async (product) => {
-    //     const newProduct = await Product.findOne({where: {name: product.name}})
-    //     const newReviews = await Promise.all(
-    //       product.reviews.map((review) => {
-    //         let {title, reviewText, rating} = review
-    //         return Review.create({title, reviewText, rating})
-    //       })
-    //     )
-    //     await newProduct.addReviews(newReviews)
-    //   })
-    // )
-
-    // newElectronicsData(async (product) => {
-    //   const newProduct = await Product.findOne({where: {name: product.name}})
-    //   const newReviews = await Product.findOne({
-    //     where: {reviewText: product.reviews[0].reviewText},
-    //   })
-    //   await newProduct.addReview(newReviews)
-    // })
-
     const user1 = await User.findByPk(1)
     const user2 = await User.findByPk(2)
     const cart1 = await Cart.findOne({where: {userId: 1}})
