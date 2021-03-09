@@ -1,4 +1,6 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {deleteSingleItem} from '../store/checkout'
 
 function roundDecimals(input) {
   let val = parseFloat(input).toFixed(2)
@@ -6,8 +8,8 @@ function roundDecimals(input) {
 }
 
 class CheckoutItem extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       quantity: 1
@@ -63,7 +65,16 @@ class CheckoutItem extends React.Component {
       this.setState({quantity: parseInt(this.props.quantity)})
     }
   }
+  deleteItem = e => {
+    e.preventDefault()
 
+    if (this.props.isLoggedIn && this.props.user.id) {
+      console.log('hello')
+      const productId = this.props.item.id
+      const userId = this.props.user.id
+      this.props.deleteSingleItem(userId, productId)
+    }
+  }
   render() {
     // console.log('this are the props item ', this.props)
     if (this.props.isLoggedIn) {
@@ -97,7 +108,9 @@ class CheckoutItem extends React.Component {
                   +
                 </button>
               </div>
-              <button type="submit">Delete</button>
+              <button type="submit" onClick={this.deleteItem}>
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -131,7 +144,7 @@ class CheckoutItem extends React.Component {
                   +
                 </button>
               </div>
-              <button type="submit">Delete</button>
+              <button type="button">Delete</button>
             </div>
           </div>
         </div>
@@ -140,4 +153,17 @@ class CheckoutItem extends React.Component {
   }
 }
 
-export default CheckoutItem
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    deleteSingleItem: (userId, productId) =>
+      dispatch(deleteSingleItem(userId, productId))
+  }
+}
+
+export default connect(mapState, mapDispatch)(CheckoutItem)

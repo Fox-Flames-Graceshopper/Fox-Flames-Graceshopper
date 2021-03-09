@@ -8,6 +8,7 @@ import {
 } from '../store/checkout'
 import CheckoutItem from './checkout-item'
 import Subtotal from './Subtotal'
+import {fetchCheckout} from '../store/checkout'
 
 function mapState(state) {
   return {
@@ -21,7 +22,8 @@ function mapDispatch(dispatch) {
   return {
     // checkoutItems: () => dispatch(fetchCheckout()),
     fetchLoggedInCart: cartId => dispatch(fetchLoggedInCart(cartId)),
-    updateCheckout: (cartId, data) => dispatch(updateCheckout(cartId, data))
+    updateCheckout: (cartId, data) => dispatch(updateCheckout(cartId, data)),
+    fetchCheckout: userId => dispatch(fetchCheckout(userId))
   }
 }
 
@@ -46,7 +48,11 @@ class Checkout extends React.Component {
     // this.updateQuantity = this.updateQuantity.bind(this)
     // this.updateTotal = this.updateTotal.bind(this)
   }
-
+  componentDidUpdate(prevProps) {
+    if (this.props.products.length !== prevProps.products.length) {
+      this.props.fetchLoggedInCart(this.props.userId)
+    }
+  }
   componentDidMount() {
     setTimeout(async () => {
       let userId = this.props.userId
@@ -209,6 +215,7 @@ class Checkout extends React.Component {
           {this.state.items.map((item, index) => {
             return (
               <CheckoutItem
+                item={item}
                 key={index}
                 getTotal={this.getTotal}
                 decreasePrice={this.decreaseTotal}
