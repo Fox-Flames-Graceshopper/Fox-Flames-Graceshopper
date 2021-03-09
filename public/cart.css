@@ -48,3 +48,15 @@
 #qty-cart-input {
   width: 60px;
 }
+
+.order-button {
+  border-top: 2px solid gray;
+  height: 5rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.order-button button {
+  height: 50%;
+}

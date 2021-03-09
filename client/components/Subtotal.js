@@ -6,7 +6,11 @@ function Subtotal(props) {
     subtotal = props.getTotal()
   } else {
     subtotal = props.subtotal
+    subtotal.total = parseFloat(subtotal.total)
   }
+
+  const taxRate = 0.085
+  const tax = 1 + taxRate
 
   console.log('this is the total: ', subtotal)
   return (
@@ -23,19 +27,24 @@ function Subtotal(props) {
         </div>
         <div className="total-qty">
           <span>Total Before Tax:</span>
-          <span>${subtotal.total + 22.33}</span>
+          <span>${roundDecimals(subtotal.total + 22.33)}</span>
         </div>
         <div className="total-qty">
           <span>Estimated Tax:</span>
-          <span>$73.02</span>
+          <span>${roundDecimals((subtotal.total + 22.33) * taxRate)}</span>
         </div>
         <div className="total-qty">
           <span>Order Total:</span>
-          <span>$546.04</span>
+          <span>${roundDecimals((subtotal.total + 22.3) * tax)}</span>
         </div>
       </div>
     </div>
   )
+}
+
+function roundDecimals(input) {
+  let val = parseFloat(input).toFixed(2)
+  return parseFloat(val)
 }
 
 export default Subtotal

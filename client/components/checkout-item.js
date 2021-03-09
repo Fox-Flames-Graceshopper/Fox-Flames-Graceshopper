@@ -1,5 +1,10 @@
 import React from 'react'
 
+function roundDecimals(input) {
+  let val = parseFloat(input).toFixed(2)
+  return parseFloat(val)
+}
+
 class CheckoutItem extends React.Component {
   constructor() {
     super()
@@ -24,12 +29,15 @@ class CheckoutItem extends React.Component {
     this.setState({
       quantity: prevState + 1
     })
-    // this.props.getTotal()
     this.props.increaseTotal(this.props.price)
-    this.props.updateQuantity(this.props.id, this.state.quantity)
+
+    if (this.props.isLoggedIn) {
+      this.props.updateQuantity(this.props.item.id, this.state.quantity + 1)
+    } else {
+      this.props.updateOffline(this.props.id, this.state.quantity + 1)
+    }
   }
 
-  //change +1 to state
   handleDecrement(event) {
     let prevState = parseInt(this.state.quantity)
     if (prevState > 1) {
@@ -37,52 +45,98 @@ class CheckoutItem extends React.Component {
         quantity: prevState - 1
       })
       this.props.decreasePrice(this.props.price)
-      this.props.updateQuantity(this.props.id, this.state.quantity)
+
+      if (this.props.isLoggedIn) {
+        this.props.updateQuantity(this.props.item.id, this.state.quantity - 1)
+      } else {
+        this.props.updateOffline(this.props.id, this.state.quantity - 1)
+      }
     }
     // this.props.getTotal();
   }
 
   componentDidMount() {
-    if (this.props.quantity) {
-      this.setState({quantity: this.props.quantity})
+    //check if logged in or not
+    if (this.props.isLoggedIn) {
+      this.setState({quantity: this.props.item.Cart_Items.quantity})
+    } else {
+      this.setState({quantity: parseInt(this.props.quantity)})
     }
   }
 
   render() {
-    console.log('this is the item ', this.props)
-    return (
-      <div className="chk-item-cont">
-        <div className="item-img-cont">
-          <img className="cart-img" src={this.props.imageUrl} />
-        </div>
+    // console.log('this are the props item ', this.props)
+    if (this.props.isLoggedIn) {
+      // console.log('this is the logged in ', this.props.item)
+      // console.log('thattttttt ', this.state)
+      return (
+        <div className="chk-item-cont">
+          <div className="item-img-cont">
+            <img className="cart-img" src={this.props.item.imageUrl} />
+          </div>
 
-        <div className="item-cart-info">
-          <h2 className="item-cart-name">{this.props.name}</h2>
-          <span id="item-cart-price">
-            ${this.props.price * this.state.quantity}
-          </span>
-          <div>
+          <div className="item-cart-info">
+            <h2 className="item-cart-name">{this.props.item.name}</h2>
+            <span id="item-cart-price">
+              ${roundDecimals(this.props.item.price * this.state.quantity)}
+            </span>
             <div>
-              <button onClick={this.handleDecrement} type="button">
-                -
-              </button>
-              <input
-                id="qty-cart-input"
-                value={this.state.quantity}
-                name="quantity"
-                type="number"
-                min="1"
-                onChange={this.handleChange}
-              />
-              <button onClick={this.handleIncrement} type="button">
-                +
-              </button>
+              <div>
+                <button onClick={this.handleDecrement} type="button">
+                  -
+                </button>
+                <input
+                  id="qty-cart-input"
+                  value={this.state.quantity}
+                  name="quantity"
+                  type="number"
+                  min="1"
+                  onChange={this.handleChange}
+                />
+                <button onClick={this.handleIncrement} type="button">
+                  +
+                </button>
+              </div>
+              <button type="submit">Delete</button>
             </div>
-            <button type="submit">Delete</button>
           </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return (
+        <div className="chk-item-cont">
+          <div className="item-img-cont">
+            <img className="cart-img" src={this.props.imageUrl} />
+          </div>
+
+          <div className="item-cart-info">
+            <h2 className="item-cart-name">{this.props.name}</h2>
+            <span id="item-cart-price">
+              ${this.props.price * this.state.quantity}
+            </span>
+            <div>
+              <div>
+                <button onClick={this.handleDecrement} type="button">
+                  -
+                </button>
+                <input
+                  id="qty-cart-input"
+                  value={this.state.quantity}
+                  name="quantity"
+                  type="number"
+                  min="1"
+                  onChange={this.handleChange}
+                />
+                <button onClick={this.handleIncrement} type="button">
+                  +
+                </button>
+              </div>
+              <button type="submit">Delete</button>
+            </div>
+          </div>
+        </div>
+      )
+    }
   }
 }
 

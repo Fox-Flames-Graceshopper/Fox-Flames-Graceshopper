@@ -1,7 +1,11 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {fetchLoggedInCart, updateCheckout} from '../store/checkout'
+import {
+  fetchLoggedInCart,
+  updateCheckout,
+  mergeCart as mergeLocal
+} from '../store/checkout'
 import CheckoutItem from './checkout-item'
 import Subtotal from './Subtotal'
 
@@ -37,17 +41,21 @@ class Checkout extends React.Component {
     this.increaseTotal = this.increaseTotal.bind(this)
     this.updateQuantity = this.updateQuantity.bind(this)
     this.submitState = this.submitState.bind(this)
+    this.updateOfflineQuantity = this.updateOfflineQuantity.bind(this)
+    // this.updateQuantity = this.updateQuantity.bind(this)
+    // this.updateTotal = this.updateTotal.bind(this)
   }
 
   componentDidMount() {
     setTimeout(async () => {
       let userId = this.props.userId
       let isLoggedIn = this.props.isLoggedIn
+      let length = JSON.parse(window.localStorage.getItem('cart')).length
 
       // heres will i merge carts when logged in
       if (isLoggedIn) {
         await this.props.fetchLoggedInCart(userId)
-      } else if (window.localStorage.getItem('cart')) {
+      } else if (length > 0) {
         this.setState({items: JSON.parse(window.localStorage.getItem('cart'))})
         this.setState({
           offlineItems: JSON.parse(window.localStorage.getItem('cart'))
@@ -59,12 +67,24 @@ class Checkout extends React.Component {
 
     setTimeout(() => {
       this.setState({loggedItems: this.props.products})
-    }, 500)
+    }, 200)
   }
+
+  // mergeState(state) {
+  //   this.props.updateCheckout(1, state)
+  // }
 
   submitState(event) {
     event.preventDefault()
-    this.props.updateCheckout(1, this.state.loggedItems)
+    if (this.props.isLoggedIn) {
+      this.props.updateCheckout(this.props.userId, this.state.loggedItems)
+    } else {
+      window.localStorage.clear()
+      window.localStorage.setItem(
+        'cart',
+        JSON.stringify(this.state.offlineItems)
+      )
+    }
   }
   updateQuantity(itemID, qty) {
     const loggedItems = this.state.loggedItems
@@ -78,23 +98,45 @@ class Checkout extends React.Component {
     }
   }
 
+  updateOfflineQuantity(itemID, qty) {
+    const offlineItems = this.state.offlineItems
+    for (let i = 0; i < offlineItems.length; i++) {
+      if (itemID === offlineItems[i].id) {
+        offlineItems[i].quantity = qty
+        this.setState({
+          offlineItems: offlineItems
+        })
+      }
+    }
+  }
+
+  roundDecimals(input) {
+    let val = parseFloat(input).toFixed(2)
+    return parseFloat(val)
+  }
+
   getTotal() {
     let subtotalObj = {
       total: 0,
       qtyItem: 0
     }
     if (this.props.isLoggedIn) {
-      this.props.products.forEach((item, index) => {
-        subtotalObj.total += item.price
+      this.state.loggedItems.forEach((item, index) => {
+        subtotalObj.total += this.roundDecimals(
+          item.price * item.Cart_Items.quantity
+        )
         subtotalObj.qtyItem = index + 1
       })
     } else {
       this.state.items.forEach((item, index) => {
         let total = this.state.subtotal.total
         let price = item.price * item.quantity
+
+        let sum = parseFloat(total) + price
+
         this.setState({
           subtotal: {
-            total: total + price,
+            total: this.roundDecimals(sum),
             qtyItem: index + 1
           }
         })
@@ -104,22 +146,22 @@ class Checkout extends React.Component {
   }
 
   decreaseTotal(price) {
-    let total = this.state.subtotal.total
+    let total = this.roundDecimals(this.state.subtotal.total)
 
     this.setState({
       subtotal: {
-        total: total - price
+        total: this.roundDecimals(total - price)
       }
     })
   }
 
   increaseTotal(price) {
-    let total = this.state.subtotal.total
+    let total = parseFloat(this.state.subtotal.total)
     let quantity = this.state.subtotal.qtyItem
 
     this.setState({
       subtotal: {
-        total: total + price,
+        total: this.roundDecimals(total + price),
         qtyItem: quantity
       }
     })
@@ -128,14 +170,14 @@ class Checkout extends React.Component {
   //here is where i will check if the user is logged in
   // whether to check state or local storage
   render() {
-    console.log('this is the satttttt', this.state.loggedItems)
-    if (this.props.isLoggedIn && this.props.products) {
+    console.log('this is the state ', this.state)
+    if (this.props.isLoggedIn && this.state.loggedItems) {
       return (
         <div>
           <button type="submit" onClick={this.submitState}>
             Update Cart
           </button>
-          {this.props.products.map((item, index) => {
+          {this.state.loggedItems.map((item, index) => {
             return (
               <CheckoutItem
                 key={index}
@@ -143,7 +185,8 @@ class Checkout extends React.Component {
                 decreasePrice={this.decreaseTotal}
                 increaseTotal={this.increaseTotal}
                 updateQuantity={this.updateQuantity}
-                {...item}
+                isLoggedIn={this.props.isLoggedIn}
+                item={item}
               />
             )
           })}
@@ -152,11 +195,17 @@ class Checkout extends React.Component {
             isLoggedIn={this.props.isLoggedIn}
             subtotal={this.state.subtotal}
           />
+          <div className="order-button">
+            <button type="submit">Order Now</button>
+          </div>
         </div>
       )
     } else if (this.props.isLoggedIn === false) {
       return (
         <div>
+          <button type="submit" onClick={this.submitState}>
+            Update Cart
+          </button>
           {this.state.items.map((item, index) => {
             return (
               <CheckoutItem
@@ -164,11 +213,16 @@ class Checkout extends React.Component {
                 getTotal={this.getTotal}
                 decreasePrice={this.decreaseTotal}
                 increaseTotal={this.increaseTotal}
+                isLoggedIn={this.props.isLoggedIn}
+                updateOffline={this.updateOfflineQuantity}
                 {...item}
               />
             )
           })}
           <Subtotal subtotal={this.state.subtotal} />
+          <div className="order-button">
+            <button type="submit">Order Now</button>
+          </div>
         </div>
       )
     } else {
