@@ -5,7 +5,7 @@ const db = require('../index')
 const Cart = db.model('cart')
 const User = db.model('user')
 
-describe.only('Cart model', () => {
+describe('Cart model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
