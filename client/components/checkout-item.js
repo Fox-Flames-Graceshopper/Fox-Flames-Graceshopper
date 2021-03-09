@@ -82,7 +82,11 @@ class CheckoutItem extends React.Component {
             </span>
             <div>
               <div>
-                <button onClick={this.handleDecrement} type="button">
+                <button
+                  className="dec-button"
+                  onClick={this.handleDecrement}
+                  type="button"
+                >
                   -
                 </button>
                 <input
@@ -97,7 +101,9 @@ class CheckoutItem extends React.Component {
                   +
                 </button>
               </div>
-              <button type="submit">Delete</button>
+              <button className="delete-btn" type="submit">
+                Delete
+              </button>
             </div>
           </div>
         </div>
@@ -116,7 +122,11 @@ class CheckoutItem extends React.Component {
             </span>
             <div>
               <div>
-                <button onClick={this.handleDecrement} type="button">
+                <button
+                  className="dec-button"
+                  onClick={this.handleDecrement}
+                  type="button"
+                >
                   -
                 </button>
                 <input
@@ -131,7 +141,9 @@ class CheckoutItem extends React.Component {
                   +
                 </button>
               </div>
-              <button type="submit">Delete</button>
+              <button className="delete-btn" type="submit">
+                Delete
+              </button>
             </div>
           </div>
         </div>

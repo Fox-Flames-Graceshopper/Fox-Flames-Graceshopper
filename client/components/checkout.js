@@ -51,13 +51,18 @@ class Checkout extends React.Component {
     setTimeout(async () => {
       let userId = this.props.userId
       let isLoggedIn = this.props.isLoggedIn
-      let length = JSON.parse(window.localStorage.getItem('cart')).length
+      let length = 0
+      if (JSON.parse(window.localStorage.getItem('cart'))) {
+        length = JSON.parse(window.localStorage.getItem('cart')).length
+      }
 
-      // heres will i merge carts when logged in
       if (isLoggedIn) {
+        // heres will i merge carts when logged in
         await this.props.fetchLoggedInCart(userId)
       } else if (length > 0 && !isLoggedIn) {
-        this.setState({items: JSON.parse(window.localStorage.getItem('cart'))})
+        this.setState({
+          items: JSON.parse(window.localStorage.getItem('cart'))
+        })
         this.setState({
           offlineItems: JSON.parse(window.localStorage.getItem('cart'))
         })
@@ -68,7 +73,7 @@ class Checkout extends React.Component {
 
     setTimeout(() => {
       this.setState({loggedItems: this.props.products})
-    }, 200)
+    }, 100)
   }
 
   // mergeState(state) {
