@@ -25,7 +25,7 @@ describe.only('Product Routes', () => {
 
     it('should GET /api/products', async () => {
       const res = await request(app)
-        .get('api/products')
+        .get('/api/products')
         .expect(200)
       console.log(res)
       expect(res.body).to.be.an.an('array')
@@ -40,7 +40,7 @@ describe.only('Product Routes', () => {
 
     it('should GET /api/products/1', async () => {
       const res = await request(app)
-        .get('api/products/1')
+        .get('/api/products/1')
         .expect(200)
 
       expect(res.body).to.be.an.an('object')
