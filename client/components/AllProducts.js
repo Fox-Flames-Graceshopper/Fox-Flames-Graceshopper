@@ -6,6 +6,8 @@ import {fetchProducts} from '../store/allProducts'
 // import {Link} from 'react-router-dom'
 // import Popup from 'reactjs-popup'
 import ProductDescription from './ProductDescription'
+import AddProduct from './addProductAdmin'
+import Button from '@material-ui/core/Button'
 
 class AllProducts extends React.Component {
   constructor(props) {
@@ -20,6 +22,7 @@ class AllProducts extends React.Component {
     this.props.fetchProducts()
   }
   changeCategory = async e => {
+    console.log('inside change category, category:', e.target.value)
     let value = e.target.value === 'All Products' ? '' : e.target.value
     await this.setState({...this.state, category: value})
     this.filterChange()
@@ -56,25 +59,29 @@ class AllProducts extends React.Component {
 
     return (
       <div id="products-page-container">
-        <form>
+        <form id="search-and-category-container">
           <input
             value={this.state.input}
             onChange={this.handleInputChange}
             placeholder="Search items..."
           />
           <br />
-          {categories.map((category, i) => {
-            return (
-              <button
-                key={i}
-                type="button"
-                value={category}
-                onClick={this.changeCategory}
-              >
-                {category}
-              </button>
-            )
-          })}
+          <div id="category-div">
+            {categories.map((category, i) => {
+              return (
+                <button
+                  className="category-button"
+                  key={i}
+                  type="button"
+                  value={category}
+                  onClick={this.changeCategory}
+                >
+                  {category}
+                </button>
+              )
+            })}
+          </div>
+          {this.props.user.isAdmin ? <AddProduct /> : <div />}
         </form>
         <div id="all-products-container">
           {input === '' && category === ''
@@ -93,7 +100,8 @@ class AllProducts extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.allProducts
+    products: state.allProducts,
+    user: state.user
   }
 }
 

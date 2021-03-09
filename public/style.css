@@ -37,10 +37,39 @@ form div {
   width: 150px;
 }
 
-#single-Product img {
+#single-Product {
+  margin: 50px auto;
+  margin-top: 50px;
+  margin-right: auto;
+  margin-bottom: 50px;
+  margin-left: auto;
+  display: flex;
+  flex-direction: row;
+  width: 80%;
+  flex-wrap: wrap;
+  row-gap: 20px;
+  column-gap: 20px;
+}
+
+/* #single-Product img {
   height: 350px;
   width: 350px;
+} */
+
+#single-product-pic {
+  flex: 1 1 350px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 350px;
 }
+
+#single-product-info {
+  flex: 1 1 400px;
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 400px;
+}
+
 #modal {
   cursor: pointer;
   position: relative;
@@ -57,4 +86,33 @@ form div {
 #modal img {
   height: 150px;
   width: 150px;
+}
+.add-new-Product-button,
+.category-button,
+.preview-button,
+.popup-x-productDetail-div button {
+  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
+    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+  background-color: #e0e0e0;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  min-width: 64px;
+  box-sizing: border-box;
+  transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+    border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 500;
+  line-height: 1.75;
+  border-radius: 4px;
+  letter-spacing: 0.02857em;
+  text-transform: uppercase;
+  border: 0;
+  margin-right: 2em;
+}
+.category-button:hover,
+.preview-button:hover {
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%),
+    0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+  background-color: #d5d5d5;
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 
-import {fetchLoggedInCart} from '../store/checkout'
+import {fetchLoggedInCart, updateCheckout} from '../store/checkout'
 import CheckoutItem from './checkout-item'
 import Subtotal from './Subtotal'
 
@@ -16,7 +16,8 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     // checkoutItems: () => dispatch(fetchCheckout()),
-    fetchLoggedInCart: cartId => dispatch(fetchLoggedInCart(cartId))
+    fetchLoggedInCart: cartId => dispatch(fetchLoggedInCart(cartId)),
+    updateCheckout: (cartId, data) => dispatch(updateCheckout(cartId, data))
   }
 }
 
@@ -24,37 +25,60 @@ class Checkout extends React.Component {
   constructor() {
     super()
     this.state = {
-      items: [
-        {
-          id: 1,
-          name: 'Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops',
-          price: 109.95,
-          description:
-            'Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday',
-          category: 'men clothing',
-          imageUrl: 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-          createdAt: '2021-03-04T15:47:00.902Z',
-          updatedAt: '2021-03-04T15:47:00.902Z'
-        }
-      ]
+      items: [],
+      subtotal: {total: 0, qtyItem: 0},
+      cartId: 0,
+      loggedItems: [],
+      offlineItems: []
     }
 
     this.getTotal = this.getTotal.bind(this)
+    this.decreaseTotal = this.decreaseTotal.bind(this)
+    this.increaseTotal = this.increaseTotal.bind(this)
+    this.updateQuantity = this.updateQuantity.bind(this)
+    this.submitState = this.submitState.bind(this)
   }
 
   componentDidMount() {
-    setTimeout(() => {
+    setTimeout(async () => {
       let userId = this.props.userId
       let isLoggedIn = this.props.isLoggedIn
 
+      // heres will i merge carts when logged in
       if (isLoggedIn) {
-        this.props.fetchLoggedInCart(userId)
+        await this.props.fetchLoggedInCart(userId)
+      } else if (window.localStorage.getItem('cart')) {
+        this.setState({items: JSON.parse(window.localStorage.getItem('cart'))})
+        this.setState({
+          offlineItems: JSON.parse(window.localStorage.getItem('cart'))
+        })
       }
+
+      this.getTotal()
     }, 75)
+
+    setTimeout(() => {
+      this.setState({loggedItems: this.props.products})
+    }, 500)
+  }
+
+  submitState(event) {
+    event.preventDefault()
+    this.props.updateCheckout(1, this.state.loggedItems)
+  }
+  updateQuantity(itemID, qty) {
+    const loggedItems = this.state.loggedItems
+    for (let i = 0; i < loggedItems.length; i++) {
+      if (itemID === loggedItems[i].id) {
+        loggedItems[i].Cart_Items.quantity = qty
+        this.setState({
+          loggedItems: loggedItems
+        })
+      }
+    }
   }
 
   getTotal() {
-    let total = 0
     let subtotalObj = {
       total: 0,
       qtyItem: 0
@@ -66,31 +90,85 @@ class Checkout extends React.Component {
       })
     } else {
       this.state.items.forEach((item, index) => {
-        subtotalObj.total += item.price
-        subtotalObj.qtyItem = index + 1
+        let total = this.state.subtotal.total
+        let price = item.price * item.quantity
+        this.setState({
+          subtotal: {
+            total: total + price,
+            qtyItem: index + 1
+          }
+        })
       })
     }
     return subtotalObj
   }
+
+  decreaseTotal(price) {
+    let total = this.state.subtotal.total
+
+    this.setState({
+      subtotal: {
+        total: total - price
+      }
+    })
+  }
+
+  increaseTotal(price) {
+    let total = this.state.subtotal.total
+    let quantity = this.state.subtotal.qtyItem
+
+    this.setState({
+      subtotal: {
+        total: total + price,
+        qtyItem: quantity
+      }
+    })
+  }
+
   //here is where i will check if the user is logged in
   // whether to check state or local storage
   render() {
+    console.log('this is the satttttt', this.state.loggedItems)
     if (this.props.isLoggedIn && this.props.products) {
       return (
         <div>
+          <button type="submit" onClick={this.submitState}>
+            Update Cart
+          </button>
           {this.props.products.map((item, index) => {
-            return <CheckoutItem key={index} {...item} />
+            return (
+              <CheckoutItem
+                key={index}
+                getTotal={this.getTotal}
+                decreasePrice={this.decreaseTotal}
+                increaseTotal={this.increaseTotal}
+                updateQuantity={this.updateQuantity}
+                {...item}
+              />
+            )
           })}
-          <Subtotal getTotal={this.getTotal} />
+          <Subtotal
+            getTotal={this.getTotal}
+            isLoggedIn={this.props.isLoggedIn}
+            subtotal={this.state.subtotal}
+          />
         </div>
       )
     } else if (this.props.isLoggedIn === false) {
       return (
         <div>
           {this.state.items.map((item, index) => {
-            return <CheckoutItem key={index} {...item} />
+            return (
+              <CheckoutItem
+                key={index}
+                getTotal={this.getTotal}
+                decreasePrice={this.decreaseTotal}
+                increaseTotal={this.increaseTotal}
+                {...item}
+              />
+            )
           })}
-          <Subtotal getTotal={this.getTotal} />
+          <Subtotal subtotal={this.state.subtotal} />
         </div>
       )
     } else {
