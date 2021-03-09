@@ -9,6 +9,7 @@ import {me} from './store'
 import Checkout from './components/Checkout'
 import AllUsersAdminView from './components/allUserAdminView'
 import {Login2, Signup2} from './components/newauth-form'
+import HomePage from './components/homepage'
 
 /**
  * COMPONENT
@@ -24,6 +25,7 @@ class Routes extends Component {
     return (
       <Switch>
         {/* Routes placed here are available to all visitors */}
+        <Route exact path="/" component={HomePage} />
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
         <Route path="/login2" component={Login2} />

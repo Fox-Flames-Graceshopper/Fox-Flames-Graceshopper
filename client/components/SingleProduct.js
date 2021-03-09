@@ -5,11 +5,12 @@ import EditProduct from './EditProduct'
 import Popup from 'reactjs-popup'
 import Button from '@material-ui/core/Button'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
+import {updateSingleItem} from '../store/checkout'
 
 class SingleProduct extends Component {
   constructor(props) {
     super(props)
-    this.state = {quantity: 0}
+    this.state = {quantity: 1}
   }
 
   addCart = e => {
@@ -42,9 +43,15 @@ class SingleProduct extends Component {
         newCart = cart
       }
       window.localStorage.setItem('cart', JSON.stringify(newCart))
-      console.log(window.localStorage)
     }
-    console.log(JSON.parse(window.localStorage.getItem('cart')))
+    if (this.props.user.id) {
+      let singleItem = {
+        product: this.props.product.id,
+        quantity: this.state.quantity
+      }
+      console.log(singleItem)
+      this.props.updateSingleItem(this.props.user.id, singleItem)
+    }
   }
 
   componentDidMount() {
@@ -62,6 +69,7 @@ class SingleProduct extends Component {
     const product = this.props.product || onRender
     const reviews = this.props.product.reviews
     const numArr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    console.log(this.state)
     return (
       <div id="single-Product">
         <div id="edit-product-div">
@@ -117,7 +125,11 @@ class SingleProduct extends Component {
                   </option>
                 ))}
               </select>
-              <Button variant="contained" endIcon={<ShoppingCartIcon />}>
+              <Button
+                variant="contained"
+                endIcon={<ShoppingCartIcon />}
+                onClick={this.addCart}
+              >
                 Add to cart
               </Button>
             </form>
@@ -154,7 +166,9 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    loadSingleProduct: productId => dispatch(fetchSingleProduct(productId))
+    loadSingleProduct: productId => dispatch(fetchSingleProduct(productId)),
+    updateSingleItem: (userId, singleItem) =>
+      dispatch(updateSingleItem(userId, singleItem))
   }
 }
 

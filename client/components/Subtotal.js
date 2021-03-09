@@ -11,6 +11,17 @@ function Subtotal(props) {
 
   const taxRate = 0.085
   const tax = 1 + taxRate
+  let overallTotal = 0
+  let estimatedTax = 0
+  let shipping = 22.33
+  let beforeTax = 0
+  if (subtotal.total > 0) {
+    overallTotal = roundDecimals(subtotal.total + 22.3 + tax)
+    estimatedTax = roundDecimals((subtotal.total + shipping) * taxRate)
+    beforeTax = roundDecimals(subtotal.total + shipping)
+  } else {
+    shipping = 0
+  }
 
   console.log('this is the total: ', subtotal)
   return (
@@ -23,19 +34,19 @@ function Subtotal(props) {
         </div>
         <div className="total-qty">
           <span>Shipping and Handling:</span>
-          <span>$22.33</span>
+          <span>${shipping}</span>
         </div>
         <div className="total-qty">
           <span>Total Before Tax:</span>
-          <span>${roundDecimals(subtotal.total + 22.33)}</span>
+          <span>${beforeTax}</span>
         </div>
         <div className="total-qty">
           <span>Estimated Tax:</span>
-          <span>${roundDecimals((subtotal.total + 22.33) * taxRate)}</span>
+          <span>${estimatedTax}</span>
         </div>
         <div className="total-qty">
           <span>Order Total:</span>
-          <span>${roundDecimals((subtotal.total + 22.3) * tax)}</span>
+          <span>${overallTotal}</span>
         </div>
       </div>
     </div>

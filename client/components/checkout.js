@@ -33,7 +33,8 @@ class Checkout extends React.Component {
       subtotal: {total: 0, qtyItem: 0},
       cartId: 0,
       loggedItems: [],
-      offlineItems: []
+      offlineItems: [],
+      orderTotal: 0
     }
 
     this.getTotal = this.getTotal.bind(this)
@@ -55,7 +56,7 @@ class Checkout extends React.Component {
       // heres will i merge carts when logged in
       if (isLoggedIn) {
         await this.props.fetchLoggedInCart(userId)
-      } else if (length > 0) {
+      } else if (length > 0 && !isLoggedIn) {
         this.setState({items: JSON.parse(window.localStorage.getItem('cart'))})
         this.setState({
           offlineItems: JSON.parse(window.localStorage.getItem('cart'))
@@ -170,7 +171,6 @@ class Checkout extends React.Component {
   //here is where i will check if the user is logged in
   // whether to check state or local storage
   render() {
-    console.log('this is the state ', this.state)
     if (this.props.isLoggedIn && this.state.loggedItems) {
       return (
         <div>
