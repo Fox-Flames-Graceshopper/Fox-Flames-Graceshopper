@@ -25,7 +25,7 @@ function Navbar({handleClick, isLoggedIn}) {
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
       {isLoggedIn ? (
         <div className="container-fluid">
-          <Link className="navbar-brand" href="/home">
+          <Link className="navbar-brand" href="/">
             Graceshopper
           </Link>
           <button
@@ -58,7 +58,7 @@ function Navbar({handleClick, isLoggedIn}) {
         </div>
       ) : (
         <div className="container-fluid">
-          <Link className="navbar-brand" to="/home">
+          <Link className="navbar-brand" to="/">
             Graceshopper
           </Link>
           <button

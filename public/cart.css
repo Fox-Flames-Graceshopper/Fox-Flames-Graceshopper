@@ -60,3 +60,13 @@
 .order-button button {
   height: 50%;
 }
+
+.dec-button {
+  background-color: #eb463b;
+  color: white;
+  font-weight: bold;
+}
+
+.delete-btn {
+  margin-top: 5px;
+}

@@ -19,6 +19,12 @@
   top: 0;
 }
 
+#category-div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+
 .product-description {
   position: relative;
   height: 25em;
