@@ -5,6 +5,7 @@ import {connect} from 'react-redux'
 import Button from '@material-ui/core/Button'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
 import {deleteProductThunk} from '../store/adminProduct'
+import {updateSingleItem} from '../store/checkout'
 
 class ProductDescription extends React.Component {
   constructor(props) {
@@ -41,9 +42,14 @@ class ProductDescription extends React.Component {
         newCart = cart
       }
       window.localStorage.setItem('cart', JSON.stringify(newCart))
-      console.log(window.localStorage)
     }
-    console.log(JSON.parse(window.localStorage.getItem('cart')))
+    if (this.props.user.id) {
+      let singleItem = {
+        product: this.props.product.id,
+        quantity: this.state.quantity
+      }
+      this.props.updateSingleItem(this.props.user.id, singleItem)
+    }
   }
   render() {
     const {product} = this.props
@@ -73,7 +79,11 @@ class ProductDescription extends React.Component {
               </option>
             ))}
           </select>
-          <Button variant="contained" endIcon={<ShoppingCartIcon />}>
+          <Button
+            variant="contained"
+            endIcon={<ShoppingCartIcon />}
+            onClick={this.addCart}
+          >
             Add to cart
           </Button>
         </form>
@@ -121,7 +131,9 @@ const mapState = state => {
 }
 const mapDispatch = dispatch => {
   return {
-    deleteProductThunk: productId => dispatch(deleteProductThunk(productId))
+    deleteProductThunk: productId => dispatch(deleteProductThunk(productId)),
+    updateSingleItem: (userId, singleItem) =>
+      dispatch(updateSingleItem(userId, singleItem))
   }
 }
 

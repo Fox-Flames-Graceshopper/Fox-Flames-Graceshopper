@@ -2137,7 +2137,8 @@ async function seed() {
 
     const users = await Promise.all([
       User.create({email: 'cody@email.com', password: '123', isAdmin: 'TRUE'}),
-      User.create({email: 'murphy@email.com', password: '123'})
+      User.create({email: 'murphy@email.com', password: '123'}),
+      User.create({email: 'cartTestUser@email.com', password: '123'})
     ])
 
     const products = await Promise.all(
@@ -2226,59 +2227,21 @@ async function seed() {
       )
     )
 
-    // const electronicProducts = await Promise.all(
-    //   newElectronicsData.map(async (product) => {
-    //     let {name, price, imageUrl, category, description, reviews} = product
-    //     const newReviews = await Promise.all(
-    //       reviews.map((review) => {
-    //         let {title, reviewText, rating} = review
-    //         return Review.create({title, reviewText, rating})
-    //       })
-    //     )
-    //     const newProducts = await Product.create({
-    //       name,
-    //       price,
-    //       imageUrl,
-    //       category,
-    //       description,
-    //     })
-    //     await newProducts.addReviews(newReviews)
-    //     return newProducts
-    //   })
-    // )
-
-    // await Promise.all(
-    //   newElectronicsData.map(async (product) => {
-    //     const newProduct = await Product.findOne({where: {name: product.name}})
-    //     const newReviews = await Promise.all(
-    //       product.reviews.map((review) => {
-    //         let {title, reviewText, rating} = review
-    //         return Review.create({title, reviewText, rating})
-    //       })
-    //     )
-    //     await newProduct.addReviews(newReviews)
-    //   })
-    // )
-
-    // newElectronicsData(async (product) => {
-    //   const newProduct = await Product.findOne({where: {name: product.name}})
-    //   const newReviews = await Product.findOne({
-    //     where: {reviewText: product.reviews[0].reviewText},
-    //   })
-    //   await newProduct.addReview(newReviews)
-    // })
-
     const user1 = await User.findByPk(1)
     const user2 = await User.findByPk(2)
+    const user3 = await User.findByPk(3)
     const cart1 = await Cart.findOne({where: {userId: 1}})
     const cart2 = await Cart.findOne({where: {userId: 2}})
+    const cart3 = await Cart.findOne({where: {userId: 3}})
 
     const product2 = await Product.findByPk(2)
     const product3 = await Product.findByPk(3)
     const product4 = await Product.findByPk(4)
+    const product30 = await Product.findByPk(30)
 
     await cart1.addProducts([product2])
     await cart2.addProducts([product3, product4])
+    await cart3.addProducts([product30])
 
     console.log(`seeded ${users.length} users`)
     console.log(`seeded ${products.length} products`)

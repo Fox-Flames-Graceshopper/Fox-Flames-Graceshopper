@@ -45,6 +45,21 @@ export function updateCheckout(userId, updateData) {
   }
 }
 
+export function updateSingleItem(userId, singleItem) {
+  return async dispatch => {
+    try {
+      let {data} = await axios.put(`/api/carts/${userId}`, {
+        userId,
+        singleItem,
+        isSingleItem: true
+      })
+      dispatch(getCheckout(data))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 // export function reset () {
 //   return {
 //     type: RESET_STATE
@@ -64,6 +79,19 @@ export function fetchLoggedInCart(userId) {
     try {
       let {data} = await axios.get(`/api/carts/${userId}`)
       dispatch(getCart(data.products))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export function mergeCart(userId, updateData) {
+  return async dispatch => {
+    try {
+      let {data} = await axios.put(`/api/carts/merge/${userId}`, {
+        products: updateData
+      })
+      dispatch(getCheckout(data))
     } catch (e) {
       console.log(e)
     }
