@@ -8,6 +8,7 @@ import AllProducts from './components/AllProducts'
 import {me} from './store'
 import Checkout from './components/Checkout'
 import AllUsersAdminView from './components/allUserAdminView'
+import {Login2, Signup2} from './components/newauth-form'
 
 /**
  * COMPONENT
@@ -25,6 +26,8 @@ class Routes extends Component {
         {/* Routes placed here are available to all visitors */}
         <Route path="/login" component={Login} />
         <Route path="/signup" component={Signup} />
+        <Route path="/login2" component={Login2} />
+        <Route path="/signup2" component={Signup2} />
         <Route exact path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
         <Route path="/cart" component={Checkout} />
