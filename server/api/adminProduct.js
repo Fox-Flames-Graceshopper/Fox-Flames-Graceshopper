@@ -8,28 +8,30 @@ const isAdmin = function(req, res, next) {
   }
   if (req.user.dataValues.isAdmin) {
     next()
+  } else {
+    res.status(403).send()
   }
-  res.status(403).send()
 }
 
 //add new product
-router.post('/', async (req, res, next) => {
+router.post('/', isAdmin, async (req, res, next) => {
   try {
-    const product = await Product.create({
+    await Product.create({
       name: req.body.name,
       price: req.body.price,
       description: req.body.description,
       category: req.body.category,
       imageUrl: req.body.imageUrl
     })
-    res.send(product)
+    const updatedproducts = await Product.findAll()
+    res.send(updatedproducts)
   } catch (err) {
     next(err)
   }
 })
 
 //update existing product info
-router.put('/:id', async (req, res, next) => {
+router.put('/:id', isAdmin, async (req, res, next) => {
   try {
     const product = await Product.findOne({
       where: {
