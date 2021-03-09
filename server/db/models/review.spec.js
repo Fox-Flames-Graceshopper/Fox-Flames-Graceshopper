@@ -5,7 +5,7 @@ const db = require('../index')
 const Review = db.model('review')
 const Product = db.model('product')
 
-describe.only('Review model', () => {
+describe('Review model', () => {
   beforeEach(() => {
     return db.sync({force: true})
   })
