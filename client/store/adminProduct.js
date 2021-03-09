@@ -9,6 +9,7 @@ const initState = {}
 // action type
 const DELETE_PRODUCT = 'DELETE_PRODUCT'
 const EDIT_PRODUCT = 'EDIT_PRODUCT'
+
 // action creator
 const deleteProduct = product => {
   return {
@@ -45,6 +46,19 @@ export const editProductThunk = (product, productId) => {
       )
       const updatedProduct = response.data
       const action = getSingleProduct(updatedProduct)
+      dispatch(action)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+}
+
+export const addProductThunk = productData => {
+  return async dispatch => {
+    try {
+      const response = await axios.post('/api/adminproduct', productData)
+      const product = response.data
+      const action = getProducts(product)
       dispatch(action)
     } catch (err) {
       console.log(err)

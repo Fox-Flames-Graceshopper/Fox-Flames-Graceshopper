@@ -85,6 +85,19 @@ export function fetchLoggedInCart(userId) {
   }
 }
 
+export function mergeCart(userId, updateData) {
+  return async dispatch => {
+    try {
+      let {data} = await axios.put(`/api/carts/merge/${userId}`, {
+        products: updateData
+      })
+      dispatch(getCheckout(data))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 export default function(state = initialCheckout, action) {
   switch (action.type) {
     case GET_CHECKOUT:

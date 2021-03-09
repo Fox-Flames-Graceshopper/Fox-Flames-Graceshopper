@@ -6,6 +6,7 @@ import {fetchProducts} from '../store/allProducts'
 // import {Link} from 'react-router-dom'
 // import Popup from 'reactjs-popup'
 import ProductDescription from './ProductDescription'
+import AddProduct from './addProductAdmin'
 import Button from '@material-ui/core/Button'
 
 class AllProducts extends React.Component {
@@ -80,6 +81,7 @@ class AllProducts extends React.Component {
               )
             })}
           </div>
+          {this.props.user.isAdmin ? <AddProduct /> : <div />}
         </form>
         <div id="all-products-container">
           {input === '' && category === ''
@@ -98,7 +100,8 @@ class AllProducts extends React.Component {
 
 const mapState = state => {
   return {
-    products: state.allProducts
+    products: state.allProducts,
+    user: state.user
   }
 }
 
