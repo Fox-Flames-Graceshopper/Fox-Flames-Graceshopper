@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const {User} = require('../db/models')
+const isAdmin = require('./IsAdminMiddleware')
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -28,7 +29,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.delete('/:id', async (req, res, next) => {
+router.delete('/:id', isAdmin, async (req, res, next) => {
   try {
     const toDelete = await User.findOne({
       where: {

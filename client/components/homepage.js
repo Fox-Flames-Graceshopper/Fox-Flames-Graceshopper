@@ -24,6 +24,10 @@ class HomePage extends React.Component {
               src="https://images.pexels.com/photos/5935744/pexels-photo-5935744.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
               alt="First slide"
             />
+            <div className="carousel-caption d-none d-md-block">
+              <h1>Flameazon FSA's Best Ecommerce Since 2021</h1>
+              <p>Flameazon FSA's Best Ecommerce Since 2021</p>
+            </div>
           </div>
           <div className="carousel-item">
             <img
@@ -31,6 +35,10 @@ class HomePage extends React.Component {
               src="https://images.pexels.com/photos/853151/pexels-photo-853151.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
               alt="Second slide"
             />
+            <div className="carousel-caption d-none d-md-block">
+              <h1>Flaming Hot Deals</h1>
+              <p>Flameazon FSA's Best Ecommerce Since 2021</p>
+            </div>
           </div>
           <div className="carousel-item">
             <img
@@ -38,6 +46,10 @@ class HomePage extends React.Component {
               src="https://images.pexels.com/photos/1797428/pexels-photo-1797428.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
               alt="Third slide"
             />
+            <div className="carousel-caption d-none d-md-block">
+              <h1>"Blazing" Fast Shipping</h1>
+              <p>Flameazon FSA's Best Ecommerce Since 2021</p>
+            </div>
           </div>
         </div>
         <a
