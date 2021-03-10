@@ -135,9 +135,8 @@ class SingleProduct extends Component {
               </Button>
             </form>
           </div>
+          <br />
           <div>
-            <h3>Reviews:</h3>
-            <br />
             <div id="put-reviews-here">
               <Popup
                 trigger={
@@ -169,6 +168,9 @@ class SingleProduct extends Component {
                 )}
               </Popup>
             </div>
+            <br />
+            <h3>Reviews:</h3>
+            <br />
             <div>
               {reviews
                 ? reviews.map(rev => (
