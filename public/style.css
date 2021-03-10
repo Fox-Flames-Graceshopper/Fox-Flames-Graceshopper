@@ -121,3 +121,7 @@ form div {
 .category-button {
   margin-top: 8px;
 }
+
+.carousel-caption {
+  background: rgba(0, 0, 0, 0.35);
+}
