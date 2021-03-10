@@ -12,11 +12,18 @@
   flex-direction: column;
 } */
 
-#search-and-category-container input,
+/* #search-and-category-container input,
 #category-div {
   margin-left: 3em;
   position: sticky;
   top: 0;
+} */
+
+#search-and-category-container input {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50em;
 }
 
 #category-div {
