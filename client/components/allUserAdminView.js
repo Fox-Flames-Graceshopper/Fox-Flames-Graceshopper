@@ -3,10 +3,6 @@ import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {fetchUserThunk, deleteUserThunk} from '../store/allUsersAdminView'
 
-//should be able to see all users info
-//should be able to delete them
-//should be able to see their current cart and also past order history
-
 class AllUsersAdminView extends React.Component {
   componentDidMount() {
     this.props.fetchUserThunk()
