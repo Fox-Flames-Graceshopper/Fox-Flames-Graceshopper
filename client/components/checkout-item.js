@@ -1,4 +1,6 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {deleteSingleItem} from '../store/checkout'
 
 function roundDecimals(input) {
   let val = parseFloat(input).toFixed(2)
@@ -6,8 +8,8 @@ function roundDecimals(input) {
 }
 
 class CheckoutItem extends React.Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     this.state = {
       quantity: 1
@@ -65,13 +67,21 @@ class CheckoutItem extends React.Component {
       this.setState({quantity: parseInt(this.props.quantity)})
     }
   }
+  deleteItem = e => {
+    e.preventDefault()
 
+    if (this.props.isLoggedIn && this.props.user.id) {
+      const productId = this.props.item.id
+      const userId = this.props.user.id
+      this.props.triggerRender(productId)
+      this.props.deleteSingleItem(userId, productId)
+    } else {
+      const productId = this.props.id
+      this.props.triggerRender(productId)
+    }
+  }
   render() {
-    console.log('this is the quant ', this.state.quantity)
-    // console.log('this are the props item ', this.props)
     if (this.props.isLoggedIn) {
-      // console.log('this is the logged in ', this.props.item)
-      // console.log('thattttttt ', this.state)
       return (
         <div className="chk-item-cont">
           <div className="item-img-cont">
@@ -108,7 +118,12 @@ class CheckoutItem extends React.Component {
                   +
                 </button>
               </div>
-              <button className="delete-btn" type="submit">
+
+              <button
+                type="submit"
+                onClick={this.deleteItem}
+                className="delete-btn"
+              >
                 Delete
               </button>
             </div>
@@ -152,7 +167,11 @@ class CheckoutItem extends React.Component {
                   +
                 </button>
               </div>
-              <button className="delete-btn" type="submit">
+              <button
+                type="button"
+                className="delete-btn"
+                onClick={this.deleteItem}
+              >
                 Delete
               </button>
             </div>
@@ -163,4 +182,17 @@ class CheckoutItem extends React.Component {
   }
 }
 
-export default CheckoutItem
+const mapState = state => {
+  return {
+    user: state.user
+  }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    deleteSingleItem: (userId, productId) =>
+      dispatch(deleteSingleItem(userId, productId))
+  }
+}
+
+export default connect(mapState, mapDispatch)(CheckoutItem)
