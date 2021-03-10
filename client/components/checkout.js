@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {Link} from 'react-router-dom'
 
 import {
   fetchLoggedInCart,
@@ -267,7 +268,9 @@ class Checkout extends React.Component {
             subtotal={this.state.subtotal}
           />
           <div className="order-button">
-            <button type="submit">Order Now</button>
+            <Link to="/checkout">
+              <button type="submit">Order Now</button>
+            </Link>
           </div>
         </div>
       )
@@ -295,7 +298,9 @@ class Checkout extends React.Component {
           })}
           <Subtotal subtotal={this.state.subtotal} />
           <div className="order-button">
-            <button type="submit">Order Now</button>
+            <Link to="/checkout">
+              <button type="submit">Order Now</button>
+            </Link>
           </div>
         </div>
       )
