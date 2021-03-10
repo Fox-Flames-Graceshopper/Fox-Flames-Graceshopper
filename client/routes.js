@@ -10,6 +10,7 @@ import Checkout from './components/Checkout'
 import AllUsersAdminView from './components/allUserAdminView'
 import {Login2, Signup2} from './components/newauth-form'
 import HomePage from './components/homepage'
+import CheckoutProcess from './components/CheckoutProcess/Checkout'
 
 /**
  * COMPONENT
@@ -31,6 +32,7 @@ class Routes extends Component {
         <Route exact path="/products/:id" component={SingleProduct} />
         <Route path="/products" component={AllProducts} />
         <Route path="/cart" component={Checkout} />
+        <Route path="/checkout" component={CheckoutProcess} />
         {isLoggedIn && (
           <Switch>
             {/* Routes placed here are only available after logging in */}
