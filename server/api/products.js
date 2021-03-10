@@ -12,10 +12,33 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-//Get route for single product
+//GET route for single product
 
 router.get('/:id', async (req, res, next) => {
   try {
+    const product = await Product.findOne({
+      where: {
+        id: req.params.id
+      },
+      include: {
+        model: Review
+      }
+    })
+    res.json(product)
+  } catch (err) {
+    next(err)
+  }
+})
+
+//Post route for new review
+router.post('/:id/review', async (req, res, next) => {
+  try {
+    await Review.create({
+      title: req.body.title,
+      reviewText: req.body.reviewText,
+      rating: req.body.rating,
+      productId: req.body.productId
+    })
     const product = await Product.findOne({
       where: {
         id: req.params.id
