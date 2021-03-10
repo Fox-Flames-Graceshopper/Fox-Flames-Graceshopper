@@ -4,10 +4,12 @@ import {connect} from 'react-redux'
 import {
   fetchLoggedInCart,
   updateCheckout,
-  mergeCart as mergeLocal
+  mergeCart as mergeLocal,
+  resetState
 } from '../store/checkout'
 import CheckoutItem from './checkout-item'
 import Subtotal from './Subtotal'
+import {fetchCheckout} from '../store/checkout'
 
 function mapState(state) {
   return {
@@ -21,7 +23,9 @@ function mapDispatch(dispatch) {
   return {
     // checkoutItems: () => dispatch(fetchCheckout()),
     fetchLoggedInCart: cartId => dispatch(fetchLoggedInCart(cartId)),
-    updateCheckout: (cartId, data) => dispatch(updateCheckout(cartId, data))
+    updateCheckout: (cartId, data) => dispatch(updateCheckout(cartId, data)),
+    fetchCheckout: userId => dispatch(fetchCheckout(userId)),
+    resetState: () => dispatch(resetState())
   }
 }
 
@@ -43,21 +47,32 @@ class Checkout extends React.Component {
     this.updateQuantity = this.updateQuantity.bind(this)
     this.submitState = this.submitState.bind(this)
     this.updateOfflineQuantity = this.updateOfflineQuantity.bind(this)
+    this.setPriceInput = this.setPriceInput.bind(this)
+    this.triggerRender = this.triggerRender.bind(this)
     // this.updateQuantity = this.updateQuantity.bind(this)
     // this.updateTotal = this.updateTotal.bind(this)
   }
-
+  // componentDidUpdate(prevProps) {
+  //   if (this.props.products.length !== prevProps.products.length) {
+  //     this.props.fetchLoggedInCart(this.props.userId)
+  //   }
+  // }
   componentDidMount() {
     setTimeout(async () => {
       let userId = this.props.userId
       let isLoggedIn = this.props.isLoggedIn
-      let length = JSON.parse(window.localStorage.getItem('cart')).length
+      let length = 0
+      if (JSON.parse(window.localStorage.getItem('cart'))) {
+        length = JSON.parse(window.localStorage.getItem('cart')).length
+      }
 
-      // heres will i merge carts when logged in
       if (isLoggedIn) {
+        // heres will i merge carts when logged in
         await this.props.fetchLoggedInCart(userId)
       } else if (length > 0 && !isLoggedIn) {
-        this.setState({items: JSON.parse(window.localStorage.getItem('cart'))})
+        this.setState({
+          items: JSON.parse(window.localStorage.getItem('cart'))
+        })
         this.setState({
           offlineItems: JSON.parse(window.localStorage.getItem('cart'))
         })
@@ -116,6 +131,51 @@ class Checkout extends React.Component {
     return parseFloat(val)
   }
 
+  // componentWillUpdate(prevProps) {
+  //   if (this.state.offlineItems.length !== prevProps.offlineItems.length) {
+  //     console.log('wooooo hoooooo')
+  //   }
+  // }
+
+  triggerRender(productID) {
+    if (this.props.isLoggedIn) {
+      let index = -1
+      let found = false
+      console.log('this is the product id  ', productID)
+      for (let i = 0; i < this.state.loggedItems.length; i++) {
+        if (productID === this.state.loggedItems[i].id) {
+          index = i
+          found = true
+        }
+      }
+      let loggedItems = this.state.loggedItems
+
+      if (found) {
+        if (index > -1) {
+          loggedItems.splice(index, 1)
+        }
+
+        this.setState({loggedItems: loggedItems})
+        this.props.fetchLoggedInCart(this.props.userId)
+      }
+    } else {
+      let index = -1
+      let found = false
+      let localArray = JSON.parse(window.localStorage.getItem('cart'))
+
+      for (let i = 0; i < localArray.length; i++) {
+        if (productID === localArray[i].id) {
+          index = i
+          window.localStorage.clear()
+          localArray.splice(index, 1)
+          window.localStorage.setItem('cart', JSON.stringify(localArray))
+        }
+      }
+
+      this.setState({offlineItems: localArray})
+    }
+  }
+
   getTotal() {
     let subtotalObj = {
       total: 0,
@@ -168,6 +228,16 @@ class Checkout extends React.Component {
     })
   }
 
+  setPriceInput(price) {
+    let total = parseFloat(this.state.subtotal.total)
+
+    this.setState({
+      subtotal: {
+        total: this.roundDecimals(total + price)
+      }
+    })
+  }
+
   //here is where i will check if the user is logged in
   // whether to check state or local storage
   render() {
@@ -187,6 +257,7 @@ class Checkout extends React.Component {
                 updateQuantity={this.updateQuantity}
                 isLoggedIn={this.props.isLoggedIn}
                 item={item}
+                triggerRender={this.triggerRender}
               />
             )
           })}
@@ -206,15 +277,18 @@ class Checkout extends React.Component {
           <button type="submit" onClick={this.submitState}>
             Update Cart
           </button>
-          {this.state.items.map((item, index) => {
+          {this.state.offlineItems.map((item, index) => {
             return (
               <CheckoutItem
+                item={item}
                 key={index}
                 getTotal={this.getTotal}
                 decreasePrice={this.decreaseTotal}
                 increaseTotal={this.increaseTotal}
                 isLoggedIn={this.props.isLoggedIn}
                 updateOffline={this.updateOfflineQuantity}
+                setPrice={this.setPriceInput}
+                triggerRender={this.triggerRender}
                 {...item}
               />
             )
