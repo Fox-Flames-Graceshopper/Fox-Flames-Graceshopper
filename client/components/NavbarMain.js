@@ -61,7 +61,9 @@ function Navbar({handleClick, isLoggedIn}) {
       ) : (
         <div className="container-fluid">
           <Link className="navbar-brand" to="/">
-            Flameazon
+            <h1 style={{fontFamily: "'Noto Sans KR', sans-serif"}}>
+              Flameazon
+            </h1>
           </Link>
           <button
             className="navbar-toggler"
