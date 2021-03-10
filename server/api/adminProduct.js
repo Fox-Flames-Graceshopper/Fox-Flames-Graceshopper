@@ -1,17 +1,7 @@
 const router = require('express').Router()
 const {Product, Review} = require('../db/models')
+const isAdmin = require('./IsAdminMiddleware')
 module.exports = router
-
-const isAdmin = function(req, res, next) {
-  if (!req.user) {
-    return res.status(403).send()
-  }
-  if (req.user.dataValues.isAdmin) {
-    next()
-  } else {
-    res.status(403).send()
-  }
-}
 
 //add new product
 router.post('/', isAdmin, async (req, res, next) => {

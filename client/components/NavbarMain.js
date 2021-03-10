@@ -25,8 +25,8 @@ function Navbar({handleClick, isLoggedIn}) {
     <nav className="navbar navbar-expand-lg navbar-light bg-light sticky-top">
       {isLoggedIn ? (
         <div className="container-fluid">
-          <Link className="navbar-brand" href="/">
-            Graceshopper
+          <Link className="navbar-brand" to="/">
+            Flameazon
           </Link>
           <button
             className="navbar-toggler"
@@ -41,7 +41,7 @@ function Navbar({handleClick, isLoggedIn}) {
           </button>
           <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div className="navbar-nav">
-              <Link className="nav-link active" aria-current="page" to="/home">
+              <Link className="nav-link active" aria-current="page" to="/">
                 Home
               </Link>
               <Link className="nav-link" to="/products">

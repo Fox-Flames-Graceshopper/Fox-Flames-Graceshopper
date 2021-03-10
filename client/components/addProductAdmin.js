@@ -87,6 +87,15 @@ class AddProduct extends React.Component {
                     <br />
 
                     <button type="submit">Submit</button>
+
+                    <Button
+                      variant="contained"
+                      id="close"
+                      type="button"
+                      onClick={close}
+                    >
+                      x
+                    </Button>
                   </form>
                 </div>
               </div>
