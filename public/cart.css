@@ -47,6 +47,7 @@
 
 #qty-cart-input {
   width: 60px;
+  border: 1px solid black;
 }
 
 .order-button {
@@ -61,12 +62,18 @@
   height: 50%;
 }
 
+.inc-button {
+  border: 1px solid black;
+}
+
 .dec-button {
   background-color: #eb463b;
   color: white;
   font-weight: bold;
+  border: 1px solid black;
 }
 
 .delete-btn {
   margin-top: 5px;
+  border: 1px solid black;
 }

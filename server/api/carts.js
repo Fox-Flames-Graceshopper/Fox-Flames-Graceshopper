@@ -42,6 +42,26 @@ router.put('/:id', async (req, res, next) => {
           cartId
         }
       })
+    } else if (req.body.deleteItem) {
+      const {userId, productId} = req.body
+      const cartData = await Cart.findOne({
+        where: {
+          userId,
+          isPurchased: false
+        }
+      })
+      let cartId = cartData.dataValues.id
+      await CartItems.destroy({
+        where: {
+          cartId,
+          productId
+        }
+      })
+      updateCart = CartItems.findAll({
+        where: {
+          cartId
+        }
+      })
     } else {
       let productDetail = req.body.products
       console.log('this is the req body', productDetail)
@@ -83,20 +103,41 @@ router.get('/:id', async (req, res, next) => {
   }
 })
 
-// api/testApi
-router.get('/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   try {
-    const data = await Cart.findOne({
+    console.log('hello from delete')
+    console.log(req.body)
+    const {userId, productId} = req.body
+    const cartData = await Cart.findOne({
       where: {
-        userId: req.params.id
-      },
-      include: {
-        all: true
+        userId,
+        isPurchased: false
       }
     })
-    res.json(data)
-  } catch (err) {
-    next(err)
+    let cartId = cartData.dataValues.id
+    await CartItems.destroy({
+      where: {
+        cartId,
+        productId
+      }
+    })
+    // const updatedCart = await Cart.findOne({
+    //   where: {
+    //     id: cartId
+    //   },
+    //   include: {
+    //     all: true
+    //   }
+    // })
+    const updatedCart = await CartItems.findOne({
+      where: {
+        cartId
+      }
+    })
+    res.send(updatedCart)
+  } catch (e) {
+    console.log(e)
+    next(e)
   }
 })
 

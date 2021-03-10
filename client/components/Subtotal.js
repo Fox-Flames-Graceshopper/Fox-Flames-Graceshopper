@@ -23,7 +23,6 @@ function Subtotal(props) {
     shipping = 0
   }
 
-  console.log('this is the total: ', subtotal)
   return (
     <div className="total-cont">
       <h3>Your Total</h3>

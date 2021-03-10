@@ -60,6 +60,22 @@ export function updateSingleItem(userId, singleItem) {
   }
 }
 
+export function deleteSingleItem(userId, productId) {
+  return async dispatch => {
+    try {
+      console.log('hello delete thunk')
+      let {data} = await axios.put(`/api/carts/${userId}`, {
+        userId,
+        productId,
+        deleteItem: true
+      })
+      dispatch(getCheckout(data))
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 export function reset() {
   return {
     type: RESET_STATE
