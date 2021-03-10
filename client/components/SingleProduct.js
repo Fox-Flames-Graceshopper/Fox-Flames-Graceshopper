@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchSingleProduct} from '../store/singleProduct'
 import EditProduct from './EditProduct'
+import AddReview from './AddReview'
 import Popup from 'reactjs-popup'
 import Button from '@material-ui/core/Button'
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart'
@@ -137,6 +138,37 @@ class SingleProduct extends Component {
           <div>
             <h3>Reviews:</h3>
             <br />
+            <div id="put-reviews-here">
+              <Popup
+                trigger={
+                  <Button
+                    variant="contained"
+                    type="button"
+                    className="edit-button"
+                  >
+                    {' '}
+                    Add Review{' '}
+                  </Button>
+                }
+                modal
+              >
+                {close => (
+                  <div id="modal">
+                    <AddReview />
+                    <div id="popup-x-productDetail-div">
+                      <Button
+                        variant="contained"
+                        id="close"
+                        type="button"
+                        onClick={close}
+                      >
+                        Close
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </Popup>
+            </div>
             <div>
               {reviews
                 ? reviews.map(rev => (
