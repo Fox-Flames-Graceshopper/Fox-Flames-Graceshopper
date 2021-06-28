@@ -7,7 +7,7 @@ A clone e-commerce site showcasing skills with:
 * Node 
 * Express 
 * Sequelize 
-* Postgres 
+* PostgreSQL 
 * React 
 * Redux 
 
