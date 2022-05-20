@@ -1,7 +1,7 @@
 # Flameazon
 ---
 
-### [Deployed Site](https://www.flameazon.com/)
+<!--### [Deployed Site](https://www.flameazon.com/) deployed site is down-->
 
 A clone e-commerce site showcasing skills with:
 * Node 
